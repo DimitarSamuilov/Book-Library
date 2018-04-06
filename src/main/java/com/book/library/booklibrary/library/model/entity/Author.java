@@ -1,4 +1,4 @@
-package com.book.library.booklibrary.library.model;
+package com.book.library.booklibrary.library.model.entity;
 
 import javax.persistence.*;
 import java.util.Set;
