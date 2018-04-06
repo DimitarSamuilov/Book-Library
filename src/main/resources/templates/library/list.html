@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+<head>
+    <th:block th:replace="~{layout/head}">
+
+    </th:block>
+    <title>Libraries</title>
+</head>
+<body>
+
+<div th:replace="~{layout/navigation}"></div>
+<div class="container contaner-body">
+    <div class="bs-docs-section">
+        <div class="row">
+            <div class="col-sm-9">
+
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="library:${libraries}" th:object="${library}">
+                    <tr class="table-active">
+                        <th scope="row" th:text="*{getId()}"></th>
+                        <td th:text="*{getUsername()}"></td>
+                        <td th:text="*{getEmail()}"></td>
+                        <!---->
+                        <!--<td><a class="btn btn-primary" th:href="@{/viruses/edit/{id}(id=*{getId()})}"-->
+                               <!--th:text="edit"></a></td>-->
+                        <!--<td><a class="btn btn-danger" th:href="@{/viruses/delete/{id}(id=*{getId()})}"-->
+                               <!--th:text="delete"></a></td>-->
+                    </tr>
+                    </tbody>
+                </table>
+                <div>
+                    <ul class="pagination">
+                        <th:block th:if="${libraries.hasPrevious()}">
+                            <li class="page-item">
+                                <a class="page-link"
+                                   th:href="@{/libraries/all(page=${pageable.getPageNumber()-1})}">&laquo;</a>
+                            </li>
+                        </th:block>
+                        <th:block th:if="${libraries.hasNext()}" >
+                            <li class="page-item">
+                                <a class="page-link" th:href="@{/libraries/all(page=${pageable.getPageNumber()+1})}">&raquo;</a>
+                            </li>
+                        </th:block>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

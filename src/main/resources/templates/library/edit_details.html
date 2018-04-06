@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{layout/head}">
+
+    </th:block>
+    <title>Edit Library Details</title>
+</head>
+<body>
+<div th:replace="~{layout/navigation}"></div>
+<div class="container contaner-body">
+    <div class="bs-docs-section">
+        <div class="row">
+            <div class="col-sm-9">
+
+                <form th:method="POST" th:action="@{/libraries/editDetails/{virusId}(virusId=${libId})}" th:object="${library}"  >
+                    <fieldset>
+                        <legend>Info to edit:</legend>
+                        <div class="form-group">
+                            <label for="user-username">UserName:</label>
+                            <input th:name="username" th:type="text" class="form-control" id="user-username">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lib-email">Email:</label>
+                            <input th:field="*{email}" class="form-control" id="lib-email">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lib-lon">Longitude:</label>
+                            <input th:field="*{longitude}" class="form-control" id="lib-lon">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lib-lat">Latitude:</label>
+                            <input th:field="*{latitude}" class="form-control" id="lib-lat">
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lib=desc">Library description:</label>
+                            <textarea th:field="*{libraryDescription}" class="form-control" id="lib=desc"
+                                      rows="3"></textarea>
+                        </div>
+
+                        <button>Submit</button>
+
+                    </fieldset>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

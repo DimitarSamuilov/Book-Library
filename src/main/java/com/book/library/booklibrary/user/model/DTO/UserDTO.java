@@ -9,6 +9,8 @@ import javax.validation.constraints.Size;
 
 public class UserDTO {
 
+    private Long id;
+
     @NotEmpty(message = "Username cannot be empty")
     private String username;
 
@@ -23,6 +25,14 @@ public class UserDTO {
     private UserType userType;
 
     public UserDTO() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public UserType getUserType() {

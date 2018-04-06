@@ -1,5 +1,7 @@
 package com.book.library.booklibrary.user.model.entity;
 
+import com.book.library.booklibrary.library.model.entity.Library;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,6 +26,8 @@ public class User {
     @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
     private Set<Role> roles;
 
+    @OneToOne(targetEntity = Library.class,mappedBy = "user")
+    private Library library;
 
     public User() {
         this.roles = new HashSet<>();
@@ -35,6 +39,14 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Library getLibrary() {
+        return library;
+    }
+
+    public void setLibrary(Library library) {
+        this.library = library;
     }
 
     public String getUsername() {

@@ -1,5 +1,7 @@
 package com.book.library.booklibrary.library.model.entity;
 
+import com.book.library.booklibrary.order.model.entity.Order;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -33,9 +35,12 @@ public class Book {
     @ManyToMany(mappedBy = "books", targetEntity = Library.class)
     private Set<Library> libraries;
 
-    @ManyToMany(mappedBy = "books",targetEntity = Category.class)
+    @ManyToMany(mappedBy = "books", targetEntity = Category.class)
     private Set<Category> categories;
 
+
+    @OneToMany(mappedBy = "orderBook")
+    private Set<Order> orders;
 
     public Book() {
     }
