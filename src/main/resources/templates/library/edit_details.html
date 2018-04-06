@@ -15,13 +15,9 @@
             <div class="col-sm-9">
 
                 <form th:method="POST" th:action="@{/libraries/editDetails/{virusId}(virusId=${libId})}" th:object="${library}"  >
+
                     <fieldset>
                         <legend>Info to edit:</legend>
-                        <div class="form-group">
-                            <label for="user-username">UserName:</label>
-                            <input th:name="username" th:type="text" class="form-control" id="user-username">
-                        </div>
-
                         <div class="form-group">
                             <label for="lib-email">Email:</label>
                             <input th:field="*{email}" class="form-control" id="lib-email">

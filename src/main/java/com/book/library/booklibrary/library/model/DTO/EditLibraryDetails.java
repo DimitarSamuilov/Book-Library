@@ -2,9 +2,7 @@ package com.book.library.booklibrary.library.model.DTO;
 
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.*;
 
 public class EditLibraryDetails {
 
@@ -13,22 +11,23 @@ public class EditLibraryDetails {
     private static final String EMPTY_FIELD_ERROR = "Field cannot be empty";
     private static final String SHORT_DESCRIPTION_MESSAGE = "Description must be at least 10 chars";
 
-    @NotEmpty(message = EMPTY_FIELD_ERROR)
+    @NotNull(message = EMPTY_FIELD_ERROR)
     @Max(value = 180, message = LONGITUDE_ERROR_MESSAGE)
     @Min(value = -180, message = LONGITUDE_ERROR_MESSAGE)
     private Double longitude;
 
-    @NotEmpty(message = EMPTY_FIELD_ERROR)
+    @NotNull(message = EMPTY_FIELD_ERROR)
     @Max(value = 90, message = LATITUDE_ERROR_MESSAGE)
     @Min(value = -90, message = LATITUDE_ERROR_MESSAGE)
     private Double latitude;
 
-    @Length(min = 10, message = SHORT_DESCRIPTION_MESSAGE)
-    @NotEmpty(message = EMPTY_FIELD_ERROR)
+    @Length(min = 5, message = SHORT_DESCRIPTION_MESSAGE)
+    @NotNull(message = EMPTY_FIELD_ERROR)
     private String libraryDescription;
 
 
-    @NotEmpty(message = "Email cannot be empty")
+    @NotNull(message = "Email cannot be empty")
+    @Size(min = 4)
     private String email;
 
 

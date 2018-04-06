@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface LibraryServiceInterface {
 
-    Long editLibraryDetails(EditLibraryDetails libraryDetails , Principal principal);
+    Long editLibraryDetails(Long id,EditLibraryDetails libraryDetails , Principal principal) throws Exception;
 
     EditLibraryDetails getEditUserInfo(Long id,Principal principal) throws Exception;
 

@@ -9,9 +9,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
+import java.util.Arrays;
 
 
 @Controller
@@ -38,14 +41,21 @@ public class LibraryController {
     public String editLibraryDetails(Model model, @PathVariable(name = "libraryId") String libraryId, Principal principal) throws Exception {
         model.addAttribute("library", this.libraryService.getEditUserInfo(Long.valueOf(libraryId), principal));
         model.addAttribute("libId", Long.valueOf(libraryId));
+        System.out.println(this.libraryService.getEditUserInfo(Long.valueOf(libraryId), principal));
         return "library/edit_details";
     }
 
     @PostMapping("/editDetails/{libraryId}")
-    @ResponseBody
-    public String processLibraryDetails(@ModelAttribute("library") EditLibraryDetails library, @PathVariable(name = "libraryId") String libraryId, Principal principal, Model model) {
+    public String processLibraryDetails(@Valid @ModelAttribute("library") EditLibraryDetails library, BindingResult bindingResult, @PathVariable(name = "libraryId") String libraryId, Principal principal, Model model) throws Exception {
 
-        return library.toString();
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("library", this.libraryService.getEditUserInfo(Long.valueOf(libraryId), principal));
+            model.addAttribute("libId", Long.valueOf(libraryId));
+            return "library/edit_details";
+        }
+        this.libraryService.editLibraryDetails(Long.valueOf(libraryId), library,principal);
+//        @todo redirect to lib profile page
+        return "redirect:/";
     }
 
 }

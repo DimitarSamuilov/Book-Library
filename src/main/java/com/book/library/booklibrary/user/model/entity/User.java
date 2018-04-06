@@ -26,7 +26,7 @@ public class User {
     @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
     private Set<Role> roles;
 
-    @OneToOne(targetEntity = Library.class,mappedBy = "user")
+    @OneToOne(targetEntity = Library.class,mappedBy = "user", cascade = CascadeType.ALL)
     private Library library;
 
     public User() {
