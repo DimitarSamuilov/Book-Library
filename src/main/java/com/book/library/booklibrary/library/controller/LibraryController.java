@@ -1,9 +1,7 @@
 package com.book.library.booklibrary.library.controller;
 
 import com.book.library.booklibrary.library.model.DTO.EditLibraryDetails;
-import com.book.library.booklibrary.library.service.library.LibraryService;
 import com.book.library.booklibrary.library.service.library.LibraryServiceInterface;
-import com.book.library.booklibrary.user.model.entity.Role;
 import com.book.library.booklibrary.user.service.UserServiceInterface;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -11,10 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.Arrays;
 
 
 @Controller
@@ -37,23 +33,22 @@ public class LibraryController {
         return "library/list";
     }
 
-    @GetMapping("/editDetails/{libraryId}")
-    public String editLibraryDetails(Model model, @PathVariable(name = "libraryId") String libraryId, Principal principal) throws Exception {
-        model.addAttribute("library", this.libraryService.getEditUserInfo(Long.valueOf(libraryId), principal));
-        model.addAttribute("libId", Long.valueOf(libraryId));
-        System.out.println(this.libraryService.getEditUserInfo(Long.valueOf(libraryId), principal));
+    @GetMapping("/editDetails/{libraryName}")
+    public String editLibraryDetails(Model model, @PathVariable(name = "libraryName") String libraryName, Principal principal) throws Exception {
+        model.addAttribute("library", this.libraryService.getEditUserInfo(libraryName, principal));
+        model.addAttribute("libId", libraryName);
+        System.out.println(this.libraryService.getEditUserInfo(libraryName, principal));
         return "library/edit_details";
     }
 
     @PostMapping("/editDetails/{libraryId}")
     public String processLibraryDetails(@Valid @ModelAttribute("library") EditLibraryDetails library, BindingResult bindingResult, @PathVariable(name = "libraryId") String libraryId, Principal principal, Model model) throws Exception {
-
         if (bindingResult.hasErrors()) {
-            model.addAttribute("library", this.libraryService.getEditUserInfo(Long.valueOf(libraryId), principal));
-            model.addAttribute("libId", Long.valueOf(libraryId));
+            model.addAttribute("library", library);
+            model.addAttribute("libId", libraryId);
             return "library/edit_details";
         }
-        this.libraryService.editLibraryDetails(Long.valueOf(libraryId), library,principal);
+        this.libraryService.editLibraryDetails(libraryId, library, principal);
 //        @todo redirect to lib profile page
         return "redirect:/";
     }

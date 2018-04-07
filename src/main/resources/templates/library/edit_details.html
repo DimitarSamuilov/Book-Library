@@ -14,30 +14,44 @@
         <div class="row">
             <div class="col-sm-9">
 
-                <form th:method="POST" th:action="@{/libraries/editDetails/{virusId}(virusId=${libId})}" th:object="${library}"  >
+                <form th:method="POST" th:action="@{/libraries/editDetails/{libId}(libId=${libId})}"
+                      th:object="${library}">
 
                     <fieldset>
                         <legend>Info to edit:</legend>
-                        <div class="form-group">
+                        <div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-danger'">
                             <label for="lib-email">Email:</label>
-                            <input th:field="*{email}" class="form-control" id="lib-email">
+                            <input th:field="*{email}" class="form-control" id="lib-email"
+                                   th:classappend="${#fields.hasErrors('email')}? 'is-invalid'">
+                            <div class="invalid-feedback" th:each="error : ${#fields.errors('email')}"
+                                 th:text="${error}"></div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" th:classappend="${#fields.hasErrors('longitude')}? 'has-danger'">
                             <label for="lib-lon">Longitude:</label>
-                            <input th:field="*{longitude}" class="form-control" id="lib-lon">
+                            <input th:field="*{longitude}" class="form-control" id="lib-lon"
+                                   th:classappend="${#fields.hasErrors('longitude')}? 'is-invalid'">
+                            <div class="invalid-feedback" th:each="error : ${#fields.errors('longitude')}"
+                                 th:text="${error}"></div>
                         </div>
 
-                        <div class="form-group">
+                        <div th:class="form-group" th:classappend="${#fields.hasErrors('latitude')}? 'has-danger'">
                             <label for="lib-lat">Latitude:</label>
-                            <input th:field="*{latitude}" class="form-control" id="lib-lat">
-
+                            <input th:field="*{latitude}" class="form-control" id="lib-lat"
+                                   th:classappend="${#fields.hasErrors('latitude')}? 'is-invalid'">
+                            <div class="invalid-feedback" th:each="error : ${#fields.errors('latitude')}"
+                                 th:text="${error}"></div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group"
+                             th:classappend="${#fields.hasErrors('libraryDescription')}? 'has-danger'">
                             <label for="lib=desc">Library description:</label>
                             <textarea th:field="*{libraryDescription}" class="form-control" id="lib=desc"
-                                      rows="3"></textarea>
+                                      rows="3"
+                                      th:classappend="${#fields.hasErrors('libraryDescription')}? 'is-invalid'"
+                            ></textarea>
+                            <div class="invalid-feedback" th:each="error : ${#fields.errors('libraryDescription')}"
+                                 th:text="${error}"></div>
                         </div>
 
                         <button>Submit</button>

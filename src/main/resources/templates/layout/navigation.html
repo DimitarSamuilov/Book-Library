@@ -8,9 +8,25 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="virus">Edit Profile<span
+                                class="caret"></span></a>
+                        <div class="dropdown-menu" aria-labelledby="virus">
+                            <a th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMIN'',''ROLE_LIBRARY'')')}"
+                               class="dropdown-item" th:href="@{/libraries/editDetails/{libraryName}(libraryName=${#authentication.name})}">Edit Library Details</a>
+                            <a th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMIN'',''ROLE_USER'')')}"
+                               class="dropdown-item" th:href="@{/viruses/add}">Edit User Details</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/map/show}">Map</a>
+                    </li>
+                </ul>
+            </div>
+
             <div th:if="${#authorization.expression('isAuthenticated()')}">
-
-
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/users/logout}">logout</a>

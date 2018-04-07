@@ -31,8 +31,8 @@ public class LibraryService implements LibraryServiceInterface {
     }
 
     @Override
-    public Long editLibraryDetails(Long id, EditLibraryDetails libraryDetails, Principal principal) throws Exception {
-        Optional<User> userOptional = this.userRepository.findById(id);
+    public Long editLibraryDetails(String username, EditLibraryDetails libraryDetails, Principal principal) throws Exception {
+        Optional<User> userOptional = this.userRepository.findByUsername(username);
         if (!userOptional.isPresent()) {
             throw new Exception("invalid id");
         }
@@ -58,8 +58,8 @@ public class LibraryService implements LibraryServiceInterface {
     }
 
     @Override
-    public EditLibraryDetails getEditUserInfo(Long id, Principal principal) throws Exception {
-        Optional<User> libOptional = this.userRepository.findById(id);
+    public EditLibraryDetails getEditUserInfo(String id, Principal principal) throws Exception {
+        Optional<User> libOptional = this.userRepository.findByUsername(id);
         if (!libOptional.isPresent()) {
 
             throw new Exception("User not found");
