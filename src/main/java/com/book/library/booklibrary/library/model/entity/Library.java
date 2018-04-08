@@ -3,6 +3,7 @@ package com.book.library.booklibrary.library.model.entity;
 import com.book.library.booklibrary.user.model.entity.User;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -21,19 +22,15 @@ public class Library {
 
     private Double latitude;
 
-    @ManyToMany(targetEntity = Book.class)
-    @JoinTable(
-            name = "library_book",
-            joinColumns = {@JoinColumn(name = "library_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "book_id", referencedColumnName = "id")}
-    )
+    @OneToMany(mappedBy = "library", targetEntity = Book.class,cascade = CascadeType.ALL)
     private Set<Book> books;
 
     @OneToOne(targetEntity = User.class)
-    @JoinColumn(name = "user_id",referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     public Library() {
+        this.books= new HashSet<>();
     }
 
     public Long getId() {

@@ -26,14 +26,18 @@ public class Book {
     private Double buyPrice;
 
     @Column(name = "rent_price")
-    private Double rentPirce;
+    private Double rentPrice;
+
+    @Column(name = "book_description")
+    private String bookDescription;
 
     @ManyToOne(targetEntity = Author.class)
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;
 
-    @ManyToMany(mappedBy = "books", targetEntity = Library.class)
-    private Set<Library> libraries;
+    @ManyToOne(targetEntity = Library.class)
+    @JoinColumn(name = "library_id")
+    private Library library;
 
     @ManyToMany(mappedBy = "books", targetEntity = Category.class)
     private Set<Category> categories;
@@ -93,12 +97,12 @@ public class Book {
         this.buyPrice = buyPrice;
     }
 
-    public Double getRentPirce() {
-        return rentPirce;
+    public Double getRentPrice() {
+        return rentPrice;
     }
 
-    public void setRentPirce(Double rentPirce) {
-        this.rentPirce = rentPirce;
+    public void setRentPrice(Double rentPrice) {
+        this.rentPrice = rentPrice;
     }
 
     public Author getAuthor() {
@@ -109,11 +113,27 @@ public class Book {
         this.author = author;
     }
 
-    public Set<Library> getLibraries() {
-        return libraries;
+    public Library getLibrary() {
+        return library;
     }
 
-    public void setLibraries(Set<Library> libraries) {
-        this.libraries = libraries;
+    public void setLibrary(Library library) {
+        this.library = library;
+    }
+
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
+    }
+
+    public String getBookDescription() {
+        return bookDescription;
+    }
+
+    public void setBookDescription(String bookDescription) {
+        this.bookDescription = bookDescription;
     }
 }

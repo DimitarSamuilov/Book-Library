@@ -1,6 +1,7 @@
 package com.book.library.booklibrary.library.service.library;
 
 import com.book.library.booklibrary.library.model.DTO.EditLibraryDetails;
+import com.book.library.booklibrary.library.model.entity.Library;
 import com.book.library.booklibrary.library.model.viewmodel.LibraryDetailsViewModel;
 import com.book.library.booklibrary.user.model.DTO.UserDTO;
 
@@ -13,4 +14,5 @@ public interface LibraryServiceInterface {
 
     EditLibraryDetails getEditUserInfo(String username,Principal principal) throws Exception;
 
+    public Library getLibraryByUsername(String username) throws Exception;
 }

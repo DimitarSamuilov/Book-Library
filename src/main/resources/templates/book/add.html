@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{layout/head}">
+
+    </th:block>
+    <title>Add new Book</title>
+</head>
+<body>
+<div th:replace="~{layout/navigation}"></div>
+<div class="container contaner-body">
+    <div class="bs-docs-section">
+        <div class="row">
+            <div class="col-sm-9">
+
+                <form th:method="POST" th:action="@{/books/add}"
+                      th:object="${book}">
+
+                    <fieldset>
+                        <legend>Info to edit:</legend>
+                        <div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-danger'">
+                            <label for="lib-name">name:</label>
+                            <input th:field="*{name}" class="form-control" id="lib-name"
+                                   th:classappend="${#fields.hasErrors('name')}? 'is-invalid'">
+                            <div class="invalid-feedback" th:each="error : ${#fields.errors('name')}"
+                                 th:text="${error}"></div>
+                        </div>
+
+                        <div class="form-group" th:classappend="${#fields.hasErrors('numberOfPages')}? 'has-danger'">
+                            <label for="lib-lon">numberOfPages:</label>
+                            <input th:field="*{numberOfPages}" class="form-control" id="lib-lon"
+                                   th:classappend="${#fields.hasErrors('numberOfPages')}? 'is-invalid'">
+                            <div class="invalid-feedback" th:each="error : ${#fields.errors('numberOfPages')}"
+                                 th:text="${error}"></div>
+                        </div>
+
+                        <div th:class="form-group"
+                             th:classappend="${#fields.hasErrors('copiesAvailable')}? 'has-danger'">
+                            <label for="lib-lat">copiesAvailable:</label>
+                            <input th:field="*{copiesAvailable}" class="form-control" id="lib-lat"
+                                   th:classappend="${#fields.hasErrors('copiesAvailable')}? 'is-invalid'">
+                            <div class="invalid-feedback" th:each="error : ${#fields.errors('copiesAvailable')}"
+                                 th:text="${error}"></div>
+                        </div>
+
+                        <div th:class="form-group" th:classappend="${#fields.hasErrors('buyPrice')}? 'has-danger'">
+                            <label for="lib-lat">Buy price:</label>
+                            <input th:field="*{buyPrice}" class="form-control" id="lib-buyPrice"
+                                   th:classappend="${#fields.hasErrors('buyPrice')}? 'is-invalid'">
+                            <div class="invalid-feedback" th:each="error : ${#fields.errors('buyPrice')}"
+                                 th:text="${error}"></div>
+                        </div>
+
+                        <div th:class="form-group" th:classappend="${#fields.hasErrors('rentPrice')}? 'has-danger'">
+                            <label for="lib-rentPrice">Rent price:</label>
+                            <input th:field="*{rentPrice}" class="form-control" id="lib-rentPrice"
+                                   th:classappend="${#fields.hasErrors('rentPrice')}? 'is-invalid'">
+                            <div class="invalid-feedback" th:each="error : ${#fields.errors('rentPrice')}"
+                                 th:text="${error}"></div>
+                        </div>
+
+                        <div class="form-group"
+                             th:classappend="${#fields.hasErrors('bookDescription')}? 'has-danger'">
+                            <label for="lib-desc">Book description:</label>
+                            <textarea th:field="*{bookDescription}" class="form-control" id="lib-desc"
+                                      rows="3"
+                                      th:classappend="${#fields.hasErrors('bookDescription')}? 'is-invalid'"
+                            ></textarea>
+                            <div class="invalid-feedback" th:each="error : ${#fields.errors('bookDescription')}"
+                                 th:text="${error}"></div>
+                        </div>
+
+                        <div class="form-group" th:classappend="${#fields.hasErrors('category')}? 'has-danger'">
+                            <label for="book-category">Category: </label>
+                            <select class="form-control" id="book-category"
+                                    th:classappend="${#fields.hasErrors('category')}? 'is-invalid'"
+                                    th:field="*{category}">
+                                <option th:each="cat:${categories}"
+                                        th:value="${cat.getId()}"
+                                        th:text="${cat.getName()}">
+                                </option>
+                            </select>
+                            <div class="invalid-feedback" th:each="error : ${#fields.errors('category')}"
+                                 th:text="${error}"></div>
+
+                        </div>
+
+                        <div class="form-group" th:classappend="${#fields.hasErrors('author')}? 'has-danger'">
+                            <label for="book-author">Category: </label>
+                            <select class="form-control" id="book-author"
+                                    th:classappend="${#fields.hasErrors('author')}? 'is-invalid'"
+                                    th:field="*{author}">
+                                <option th:each="auth:${authors}"
+                                        th:value="${auth.getId()}"
+                                        th:text="${auth.getName()}">
+                                </option>
+                            </select>
+                            <div class="invalid-feedback" th:each="error : ${#fields.errors('author')}"
+                                 th:text="${error}"></div>
+
+                        </div>
+
+                        <button>Submit</button>
+
+                    </fieldset>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

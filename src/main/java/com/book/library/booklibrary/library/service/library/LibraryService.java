@@ -30,6 +30,18 @@ public class LibraryService implements LibraryServiceInterface {
         this.modelMapper = modelMapper;
     }
 
+
+    public Library getLibraryByUsername(String username) throws Exception {
+        Optional<User> libUser = this.userRepository.findByUsername(username);
+        if (libUser.isPresent()) {
+            String deb="das";
+            if (libUser.get().getLibrary() != null) {
+                return libUser.get().getLibrary();
+            }
+        }
+        return null;
+    }
+
     @Override
     public Long editLibraryDetails(String username, EditLibraryDetails libraryDetails, Principal principal) throws Exception {
         Optional<User> userOptional = this.userRepository.findByUsername(username);
