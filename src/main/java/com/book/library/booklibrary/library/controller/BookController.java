@@ -5,6 +5,8 @@ import com.book.library.booklibrary.library.service.author.AuthorServiceInterfac
 import com.book.library.booklibrary.library.service.book.BookServiceInterface;
 import com.book.library.booklibrary.library.service.category.CategoryService;
 import com.book.library.booklibrary.library.service.category.CategoryServiceInterface;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -45,7 +47,14 @@ public class BookController {
 
             return "book/add";
         }
-        this.bookService.addNewBook(book,principal);
+        this.bookService.addNewBook(book, principal);
         return "redirect:/";
+    }
+
+    @GetMapping("/list")
+    public String bookList(@PageableDefault(size = 10) Pageable pageable, Model model) {
+        model.addAttribute("pageable", pageable);
+        model.addAttribute("books", this.bookService.getAllBookPages(pageable));
+        return "book/list";
     }
 }

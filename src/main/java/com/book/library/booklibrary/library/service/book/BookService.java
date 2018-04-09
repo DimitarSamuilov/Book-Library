@@ -9,9 +9,12 @@ import com.book.library.booklibrary.library.service.author.AuthorServiceInterfac
 import com.book.library.booklibrary.library.service.category.CategoryServiceInterface;
 import com.book.library.booklibrary.library.service.library.LibraryServiceInterface;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.List;
 
 @Service
 public class BookService implements BookServiceInterface {
@@ -38,5 +41,10 @@ public class BookService implements BookServiceInterface {
         System.out.println(ownerLibrary.getId());
         insertBook.setLibrary(ownerLibrary);
         return this.bookRepository.save(insertBook).getId();
+    }
+
+    @Override
+    public Slice<Book> getAllBookPages(Pageable pageable) {
+        return this.bookRepository.findAll(pageable);
     }
 }

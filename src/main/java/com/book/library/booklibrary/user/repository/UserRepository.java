@@ -15,8 +15,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUsername(String username);
-//    SELECT u.id,u.email,u.password,u.username FROM User u JOIN u.roles  r WHERE r.name= :role
-    //SELECT count(*) FROM User u JOIN u.roles  r WHERE r.name= :role
+
     @Query(value = "SELECT u.id,u.email,u.password,u.username FROM users u \n" +
             "JOIN users_roles c on u.id = c.users_id join roles r on r.id= c.roles_id \n WHERE r.name= :role",
             countQuery = "SELECT count(*) FROM users u \n" +
