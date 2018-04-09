@@ -1,5 +1,6 @@
 package com.book.library.booklibrary.library.service.author;
 
+import com.book.library.booklibrary.library.model.DTO.AuthorDTO;
 import com.book.library.booklibrary.library.model.entity.Author;
 import com.book.library.booklibrary.library.repository.AuthorRepository;
 import org.modelmapper.ModelMapper;
@@ -21,10 +22,10 @@ public class AuthorService implements AuthorServiceInterface {
     @Override
     public List<Author> getAllAuthors() {
         return this.authorRepository.findAll();
-//        return
-//                this.authorRepository.
-//                        findAll().stream().
-//                        map(author -> this.modelMapper.map(author, AuthorDTO.class)).
-//                        collect(Collectors.toList());
+    }
+
+    @Override
+    public Long addAuthor(AuthorDTO author) {
+        return this.authorRepository.save(this.modelMapper.map(author,Author.class)).getId();
     }
 }

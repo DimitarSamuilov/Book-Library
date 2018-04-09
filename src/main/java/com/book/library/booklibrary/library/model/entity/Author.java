@@ -1,6 +1,7 @@
 package com.book.library.booklibrary.library.model.entity;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -17,10 +18,11 @@ public class Author {
     @Column(nullable = false, columnDefinition = "text")
     private String description;
 
-    @OneToMany(mappedBy = "author",targetEntity = Book.class)
+    @OneToMany(mappedBy = "author", targetEntity = Book.class)
     private Set<Book> books;
 
     public Author() {
+        this.books = new HashSet<>();
     }
 
     public Long getId() {

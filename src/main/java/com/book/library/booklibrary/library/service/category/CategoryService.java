@@ -1,5 +1,6 @@
 package com.book.library.booklibrary.library.service.category;
 
+import com.book.library.booklibrary.library.model.DTO.CategoryDTO;
 import com.book.library.booklibrary.library.model.entity.Category;
 import com.book.library.booklibrary.library.repository.CategoryRepository;
 import org.modelmapper.ModelMapper;
@@ -21,11 +22,10 @@ public class CategoryService implements CategoryServiceInterface {
     @Override
     public List<Category> getAllCategories() {
         return this.categoryRepository.findAll();
-//        return
-//                this.categoryRepository.
-//                        findAll().
-//                        stream().
-//                        map(category -> this.modelMapper.map(category, CategoryDTO.class)).
-//                        collect(Collectors.toList());
+    }
+
+    @Override
+    public Long addCategory(CategoryDTO categoryDTO) {
+        return this.categoryRepository.save(this.modelMapper.map(categoryDTO,Category.class)).getId();
     }
 }

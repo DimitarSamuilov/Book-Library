@@ -1,11 +1,18 @@
 package com.book.library.booklibrary.library.model.DTO;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class AuthorDTO {
+    private static final String EMPTY_MESSAGE = "Field cannot be empty";
+    private static final String SIZE_NAME_MESSAGE = "Name must be between 3 and 100 chars ";
+
     private Long id;
 
-
+    @NotNull(message = EMPTY_MESSAGE)
+    @Size(min = 3, max = 100, message = SIZE_NAME_MESSAGE)
     private String name;
-
 
     private String description;
 
