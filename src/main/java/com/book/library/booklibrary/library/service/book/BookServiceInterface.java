@@ -11,5 +11,5 @@ public interface BookServiceInterface {
 
     Long addNewBook(AddBook bookDTO, Principal principal) throws Exception;
 
-    Slice<Book> getAllBookPages(Pageable pageable);
+    Slice<Book> getAllBookPages(Pageable pageable,String category);
 }

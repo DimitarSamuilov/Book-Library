@@ -3,6 +3,7 @@ package com.book.library.booklibrary.library.model.entity;
 import com.book.library.booklibrary.order.model.entity.Order;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -39,14 +40,19 @@ public class Book {
     @JoinColumn(name = "library_id")
     private Library library;
 
-    @ManyToMany(mappedBy = "books", targetEntity = Category.class)
+    @ManyToMany( targetEntity = Category.class)
+    @JoinTable(
+            name = "category_book",
+            joinColumns = {@JoinColumn(name = "book_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")}
+    )
     private Set<Category> categories;
-
 
     @OneToMany(mappedBy = "orderBook")
     private Set<Order> orders;
 
     public Book() {
+        this.categories = new HashSet<>();
     }
 
     public Set<Category> getCategories() {
@@ -135,5 +141,9 @@ public class Book {
 
     public void setBookDescription(String bookDescription) {
         this.bookDescription = bookDescription;
+    }
+
+    public void addCategory(Category category) {
+        this.categories.add(category);
     }
 }

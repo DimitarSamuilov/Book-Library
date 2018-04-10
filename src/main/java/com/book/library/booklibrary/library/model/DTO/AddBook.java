@@ -4,10 +4,12 @@ import com.book.library.booklibrary.library.model.entity.Author;
 import com.book.library.booklibrary.library.model.entity.Category;
 
 import javax.persistence.Column;
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 public class AddBook {
 
@@ -37,8 +39,9 @@ public class AddBook {
     @NotNull(message = NOT_EMPTY_MESSAGE)
     private Author author;
 
-    @NotNull(message = NOT_EMPTY_MESSAGE)
-    private Category category;
+    @NotEmpty(message = NOT_EMPTY_MESSAGE)
+    @Valid
+    private Set<Category> category;
 
     private String bookDescription;
 
@@ -101,11 +104,11 @@ public class AddBook {
         this.author = author;
     }
 
-    public Category getCategory() {
+    public Set<Category> getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(Set<Category> category) {
         this.category = category;
     }
 

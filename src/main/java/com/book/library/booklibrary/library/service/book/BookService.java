@@ -38,13 +38,20 @@ public class BookService implements BookServiceInterface {
 
         Book insertBook = this.modelMapper.map(bookDTO, Book.class);
         Library ownerLibrary = this.libraryService.getLibraryByUsername(principal.getName());
-        System.out.println(ownerLibrary.getId());
+
         insertBook.setLibrary(ownerLibrary);
         return this.bookRepository.save(insertBook).getId();
     }
 
     @Override
-    public Slice<Book> getAllBookPages(Pageable pageable) {
-        return this.bookRepository.findAll(pageable);
+    public Slice<Book> getAllBookPages(Pageable pageable, String category) {
+        System.out.println(category);
+        if ( category.equals("")) {
+
+            System.out.println("all");
+            return this.bookRepository.findAll(pageable);
+        } else {
+            return this.bookRepository.findAllByCategoriesName(category, pageable);
+        }
     }
 }

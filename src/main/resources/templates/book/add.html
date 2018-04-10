@@ -73,7 +73,7 @@
 
                         <div class="form-group" th:classappend="${#fields.hasErrors('category')}? 'has-danger'">
                             <label for="book-category">Category: </label>
-                            <select class="form-control" id="book-category"
+                            <select multiple class="form-control" id="book-category"
                                     th:classappend="${#fields.hasErrors('category')}? 'is-invalid'"
                                     th:field="*{category}">
                                 <option th:each="cat:${categories}"
