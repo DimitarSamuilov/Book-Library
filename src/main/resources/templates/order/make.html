@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{layout/head}">
+
+    </th:block>
+    <title>Add new Order</title>
+</head>
+<body>
+<div th:replace="~{layout/navigation}"></div>
+<div class="container contaner-body">
+    <div class="bs-docs-section">
+        <div class="row">
+            <div class="col-sm-9">
+
+                <form th:method="POST" th:action="@{/orders/make/{bookId}(bookId=${bookId})}"
+                      th:object="${order}">
+
+                    <fieldset>
+                        <legend>Info to edit:</legend>
+                        <div class="form-group" th:classappend="${#fields.hasErrors('bookName')}? 'has-danger'">
+                            <label for="book-name">Book Title:</label>
+                            <input th:field="*{bookName}" class="form-control" id="book-name"
+                                   th:classappend="${#fields.hasErrors('bookName')}? 'is-invalid'">
+                            <div class="invalid-feedback" th:each="error : ${#fields.errors('bookName')}"
+                                 th:text="${error}"></div>
+                        </div>
+
+                        <div class="form-group" th:classappend="${#fields.hasErrors('orderAddress')}? 'has-danger'">
+                            <label for="order-address">Order Address:</label>
+                            <input th:field="*{orderAddress}" class="form-control" id="order-address"
+                                   th:classappend="${#fields.hasErrors('orderAddress')}? 'is-invalid'">
+                            <div class="invalid-feedback" th:each="error : ${#fields.errors('orderAddress')}"
+                                 th:text="${error}"></div>
+                        </div>
+
+
+                        <div class="form-group" th:classappend="${#fields.hasErrors('contactNumber')}? 'has-danger'">
+                            <label for="order-number">Contact number:</label>
+                            <input th:field="*{contactNumber}" class="form-control" id="order-number"
+                                   th:classappend="${#fields.hasErrors('contactNumber')}? 'is-invalid'">
+                            <div class="invalid-feedback" th:each="error : ${#fields.errors('contactNumber')}"
+                                 th:text="${error}"></div>
+                        </div>
+
+
+                        <div th:class="form-group" th:classappend="${#fields.hasErrors('rentTime')}? 'has-danger'">
+                            <label for="book-rentTime">Rent time:</label>
+                            <input th:field="*{rentTime}" class="form-control" id="book-rentTime"
+                                   th:classappend="${#fields.hasErrors('rentTime')}? 'is-invalid'">
+                            <div class="invalid-feedback" th:each="error : ${#fields.errors('rentTime')}"
+                                 th:text="${error}"></div>
+                        </div>
+
+                        <fieldset class="form-group" th:classappend="${#fields.hasErrors('orderType')}? 'has-danger'">
+                            <legend>Order type:</legend>
+                            <div class="form-check"
+                                 th:each="orderType:${T(com.book.library.booklibrary.order.enums.OrderType).values()}">
+                                <label class="order-type">
+                                    <input th:type="radio" class="form-check-input" name="mutationType"
+                                           value="option1" checked="" th:value="${orderType}"
+                                           th:field="${order.orderType}"
+                                           th:text="${orderType.name()}"
+                                           th:classappend="${#fields.hasErrors('orderType')}? 'is-invalid'">
+                                </label>
+                                <div class="invalid-feedback" th:each="error : ${#fields.errors('orderType')}"
+                                     th:text="${error}"></div>
+                            </div>
+                        </fieldset>
+
+                        <button>Submit</button>
+
+                    </fieldset>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

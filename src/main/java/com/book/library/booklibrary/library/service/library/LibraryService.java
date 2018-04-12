@@ -85,7 +85,6 @@ public class LibraryService implements LibraryServiceInterface {
 
         EditLibraryDetails libraryDetails = new EditLibraryDetails();
         if (libOptional.get().getLibrary() != null) {
-            System.out.println(libOptional.get().getLibrary());
             libraryDetails = this.modelMapper.map(libOptional.get().getLibrary(), EditLibraryDetails.class);
         }
         libraryDetails.setEmail(libOptional.get().getEmail());

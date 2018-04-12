@@ -37,7 +37,6 @@ public class LibraryController {
     public String editLibraryDetails(Model model, @PathVariable(name = "libraryName") String libraryName, Principal principal) throws Exception {
         model.addAttribute("library", this.libraryService.getEditUserInfo(libraryName, principal));
         model.addAttribute("libId", libraryName);
-        System.out.println(this.libraryService.getEditUserInfo(libraryName, principal));
         return "library/edit_details";
     }
 

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookService implements BookServiceInterface {
@@ -45,13 +46,16 @@ public class BookService implements BookServiceInterface {
 
     @Override
     public Slice<Book> getAllBookPages(Pageable pageable, String category) {
-        System.out.println(category);
-        if ( category.equals("")) {
+        if (category.equals("")) {
 
-            System.out.println("all");
             return this.bookRepository.findAll(pageable);
         } else {
             return this.bookRepository.findAllByCategoriesName(category, pageable);
         }
+    }
+
+    @Override
+    public Optional<Book> getBookById(Long bookId) {
+        return this.bookRepository.findById(bookId);
     }
 }

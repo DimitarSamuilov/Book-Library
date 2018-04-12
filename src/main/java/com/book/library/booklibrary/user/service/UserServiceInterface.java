@@ -16,4 +16,6 @@ public interface UserServiceInterface {
     Optional<User> getUseById(Long userId);
 
     Page<UserDTO> getUsersByRole(String role, Pageable pageable);
+
+    Optional<User> getUserByUsername(String username);
 }

@@ -6,10 +6,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
 import java.security.Principal;
+import java.util.Optional;
 
 public interface BookServiceInterface {
 
     Long addNewBook(AddBook bookDTO, Principal principal) throws Exception;
 
     Slice<Book> getAllBookPages(Pageable pageable,String category);
+
+    Optional<Book> getBookById(Long bookId);
 }

@@ -66,11 +66,15 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 
     @Override
     public Page<UserDTO> getUsersByRole(String role, Pageable pageable) {
-        return this.userRepository.findUsersByRole(role,pageable).map(user -> this.modelMapper.map(user,UserDTO.class));
+        return this.userRepository.findUsersByRole(role, pageable).map(user -> this.modelMapper.map(user, UserDTO.class));
     }
 
     @Override
     public Optional<User> getUseById(Long userId) {
         return this.userRepository.findById(userId);
+    }
+
+    public Optional<User> getUserByUsername(String username) {
+        return this.userRepository.findByUsername(username);
     }
 }
