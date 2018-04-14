@@ -30,8 +30,18 @@ public class EditLibraryDetails {
     @Size(min = 4)
     private String email;
 
+    @NotNull(message = EMPTY_FIELD_ERROR)
+    private String address;
 
     public EditLibraryDetails() {
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getEmail() {

@@ -3,15 +3,17 @@ package com.book.library.booklibrary.library.model.viewmodel;
 public class LibraryDetailsViewModel {
     private Long id;
 
-    private String name;
+    private String username;
 
-    private String description;
+    private String libraryDescription;
 
     private Double latitude;
 
     private Double longitude;
 
     private String email;
+
+    private String address;
 
     public LibraryDetailsViewModel() {
     }
@@ -24,20 +26,28 @@ public class LibraryDetailsViewModel {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getAddress() {
+        return address;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getDescription() {
-        return description;
+    public String getUsername() {
+        return username;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getLibraryDescription() {
+        return libraryDescription;
+    }
+
+    public void setLibraryDescription(String libraryDescription) {
+        this.libraryDescription = libraryDescription;
     }
 
     public Double getLatitude() {

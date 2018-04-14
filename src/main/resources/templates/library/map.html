@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="~{layout/head}">
+
+    </th:block>
+    <title>Library map</title>
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+
+        /* Optional: Makes the sample page fill the window. */
+        html, body, main {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{layout/navigation}"></div>
+<div class="container contaner-body">
+    <div class="bs-docs-section">
+
+        <div class="row">
+            <div class="col-sm-9">
+                <h1>Library Details</h1>
+                <table class="table table-hover" th:object="${library}">
+                    <thead>
+                    <tr>
+                        <th scope="col">Library Name</th>
+                        <th scope="col">Library Email</th>
+                        <th scope="col">Library Address</th>
+                        <th scope="col">Library Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="table-active">
+                        <th scope="row" th:text="*{username}"></th>
+                        <td th:text="*{email}"></td>
+                        <td th:text="*{address}"></td>
+                        <td th:text="*{libraryDescription}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col" style="height: 500px;">
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+    <script th:inline="javascript">
+        var geoJson = [[${geoJson}]];
+        var data = JSON.parse(geoJson);
+        console.log(data);
+
+        var map;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: data.library.coordinates,
+                zoom: 3
+            });
+
+            var image = 'https://cdn1.iconfinder.com/data/icons/map-objects/154/map-object-library-book-read-place-48.png';
+            var contentString = '<div id="content">' +
+                '<div id="siteNotice">' +
+                '</div>' +
+                '<h1 id="firstHeading" class="firstHeading">' + data.library.title + '</h1>' +
+                '<div id="bodyContent">' +
+                '<p>' + data.library.description + '</p>' +
+                '</div>' +
+                '</div>';
+
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+            var pointData = {
+                map: map,
+                title: data.library.title,
+                position: data.library.coordinates
+            };
+            console.log(pointData);
+            var marker = new google.maps.Marker(pointData);
+            marker.addListener('click', function () {
+                infowindow.open(map, marker);
+            });
+
+            marker.setMap(map);
+        }
+
+    </script>
+    <script async="true" defer="true"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgCOjJWSAoMqjZCIVa_5j4smCuDCUI8sQ&amp;callback=initMap">
+    </script>
+</body>
+</html>

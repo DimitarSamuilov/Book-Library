@@ -9,7 +9,10 @@ import com.book.library.booklibrary.user.model.entity.Role;
 import com.book.library.booklibrary.user.model.entity.User;
 import com.book.library.booklibrary.user.repository.UserRepository;
 import com.book.library.booklibrary.user.service.UserServiceInterface;
+import org.modelmapper.AbstractProvider;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
+import org.modelmapper.spi.Mapping;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +37,7 @@ public class LibraryService implements LibraryServiceInterface {
     public Library getLibraryByUsername(String username) throws Exception {
         Optional<User> libUser = this.userRepository.findByUsername(username);
         if (libUser.isPresent()) {
-            String deb="das";
+            String deb = "das";
             if (libUser.get().getLibrary() != null) {
                 return libUser.get().getLibrary();
             }
@@ -91,5 +94,22 @@ public class LibraryService implements LibraryServiceInterface {
         return libraryDetails;
     }
 
+    @Override
+    public LibraryDetailsViewModel getLibraryDetails(Long id) throws Exception {
 
+        Optional<User> userOptional = this.userRepository.findById(id);
+
+        if (!userOptional.isPresent()) {
+            throw new Exception("No such Library");
+        }
+
+        if (userOptional.get().getRoles().stream().noneMatch(role -> role.getName().equalsIgnoreCase(UserType.LIBRARY.toString()))) {
+            throw new Exception("this is not a library");
+        }
+
+        LibraryDetailsViewModel libraryDetailsViewModel = this.modelMapper.map(userOptional.get().getLibrary(), LibraryDetailsViewModel.class);
+        this.modelMapper.map(userOptional.get(), libraryDetailsViewModel);
+
+        return libraryDetailsViewModel;
+    }
 }

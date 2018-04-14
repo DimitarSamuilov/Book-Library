@@ -22,6 +22,8 @@ public class Library {
 
     private Double latitude;
 
+    private String address;
+
     @OneToMany(mappedBy = "library", targetEntity = Book.class,cascade = CascadeType.ALL)
     private Set<Book> books;
 
@@ -39,6 +41,14 @@ public class Library {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getLibraryDescription() {

@@ -1,14 +1,20 @@
 package com.book.library.booklibrary.library.controller;
 
 import com.book.library.booklibrary.library.model.DTO.EditLibraryDetails;
+import com.book.library.booklibrary.library.model.viewmodel.LibraryDetailsViewModel;
 import com.book.library.booklibrary.library.service.library.LibraryServiceInterface;
 import com.book.library.booklibrary.user.service.UserServiceInterface;
+import jdk.nashorn.api.scripting.JSObject;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import java.security.Principal;
 
@@ -50,6 +56,29 @@ public class LibraryController {
         this.libraryService.editLibraryDetails(libraryId, library, principal);
 //        @todo redirect to lib profile page
         return "redirect:/";
+    }
+
+    @GetMapping("/profileDetails/{libraryId}")
+    public String libraryDetails(@PathVariable(name = "libraryId") Long libraryId, Model model) throws Exception {
+        JSONObject googleMapJsonObject = null;
+        LibraryDetailsViewModel libraryDetails = this.libraryService.getLibraryDetails(libraryId);
+
+        googleMapJsonObject = new JSONObject();
+
+        JSONObject libraryMapInfo=  new JSONObject()
+                        .put("title", libraryDetails.getUsername())
+                        .put("description", libraryDetails.getLibraryDescription())
+                        .put("email", libraryDetails.getEmail())
+                        .put("coordinates", new JSONObject()
+//                                .put("lat",libraryDetails.getLatitude())
+//                                .put("lng",libraryDetails.getLongitude()));
+                                .put("lat",libraryDetails.getLatitude())
+                                .put("lng",libraryDetails.getLongitude()));
+        googleMapJsonObject.put("library",libraryMapInfo);
+        model.addAttribute("library", libraryDetails);
+        model.addAttribute("geoJson", googleMapJsonObject.toString());
+        String de = "das";
+        return "library/map";
     }
 
 }

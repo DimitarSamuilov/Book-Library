@@ -14,5 +14,7 @@ public interface LibraryServiceInterface {
 
     EditLibraryDetails getEditUserInfo(String username,Principal principal) throws Exception;
 
-    public Library getLibraryByUsername(String username) throws Exception;
+    Library getLibraryByUsername(String username) throws Exception;
+
+    LibraryDetailsViewModel getLibraryDetails(Long id) throws Exception;
 }

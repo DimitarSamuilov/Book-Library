@@ -27,6 +27,14 @@
                                  th:text="${error}"></div>
                         </div>
 
+                        <div class="form-group" th:classappend="${#fields.hasErrors('address')}? 'has-danger'">
+                            <label for="lib-address">Address:</label>
+                            <input th:field="*{email}" class="form-control" id="lib-address"
+                                   th:classappend="${#fields.hasErrors('address')}? 'is-invalid'">
+                            <div class="invalid-feedback" th:each="error : ${#fields.errors('address')}"
+                                 th:text="${error}"></div>
+                        </div>
+
                         <div class="form-group" th:classappend="${#fields.hasErrors('longitude')}? 'has-danger'">
                             <label for="lib-lon">Longitude:</label>
                             <input th:field="*{longitude}" class="form-control" id="lib-lon"
