@@ -23,8 +23,8 @@
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
                         <th scope="col">Email</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
+                        <th scope="col">Details</th>
+                        <th scope="col" th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMIN'')')}">Delete</th>
                     </tr>
                     </thead>
                     <tbody th:each="library:${libraries}" th:object="${library}">
@@ -32,11 +32,13 @@
                         <th scope="row" th:text="*{getId()}"></th>
                         <td th:text="*{getUsername()}"></td>
                         <td th:text="*{getEmail()}"></td>
-                        <!---->
-                        <!--<td><a class="btn btn-primary" th:href="@{/viruses/edit/{id}(id=*{getId()})}"-->
-                               <!--th:text="edit"></a></td>-->
-                        <!--<td><a class="btn btn-danger" th:href="@{/viruses/delete/{id}(id=*{getId()})}"-->
-                               <!--th:text="delete"></a></td>-->
+                        <td><a class="btn btn-success" th:href="@{/libraries/profileDetails/{id}(id=*{getId()})}"
+                               th:text="see"></a></td>
+
+                        <td th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMIN'')')}"
+                        ><a class="btn btn-danger" th:href="@{/libraries/delete/{id}(id=*{getId()})}"
+                               th:text="delete"></a></td>
+
                     </tr>
                     </tbody>
                 </table>

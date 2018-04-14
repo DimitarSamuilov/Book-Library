@@ -27,6 +27,8 @@
                         <th scope="col">Buy Price</th>
                         <th scope="col">Rent Price</th>
                         <th scope="col">Description</th>
+                        <th scope="col" th:if="${#authorization.expression('hasAnyRole(''ROLE_READER'')')}"
+                            th:text="Order"></th>
                     </tr>
                     </thead>
                     <tbody th:each="book:${books}" th:object="${book}">
@@ -38,11 +40,10 @@
                         <td th:text="*{getBuyPrice()}"></td>
                         <td th:text="*{getRentPrice()}"></td>
                         <td th:text="*{getBookDescription()}"></td>
-                        <!---->
-                        <!--<td><a class="btn btn-primary" th:href="@{/viruses/edit/{id}(id=*{getId()})}"-->
-                        <!--th:text="edit"></a></td>-->
-                        <!--<td><a class="btn btn-danger" th:href="@{/viruses/delete/{id}(id=*{getId()})}"-->
-                        <!--th:text="delete"></a></td>-->
+                        <td><a class="btn btn-success"
+                               th:if="${#authorization.expression('hasAnyRole(''ROLE_READER'')')}"
+                               th:href="@{/orders/make/{id}(id=*{getId()})}"
+                               th:text="Order"></a></td>
                     </tr>
                     </tbody>
                 </table>
