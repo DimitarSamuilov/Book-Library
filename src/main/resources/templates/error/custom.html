@@ -7,7 +7,7 @@
     <th:block th:replace="~{layout/head}">
 
     </th:block>
-    <title th:text="${title}"></title>
+    <title th:text="${status.toString()}"></title>
 </head>
 <body>
 
@@ -18,7 +18,7 @@
             <div class="error-template">
                 <h1>
                     Oops!</h1>
-                <h2>Major Error</h2>
+                <h2 th:text="${status.getReasonPhrase()}"></h2>
                 <div class="error-details">
                     Sorry, an error has occured. Code monkeys are dispatched to fix the problem.
                 </div>

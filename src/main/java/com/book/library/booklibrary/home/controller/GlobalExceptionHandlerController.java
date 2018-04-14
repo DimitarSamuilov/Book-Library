@@ -19,12 +19,13 @@ public class GlobalExceptionHandlerController {
     public String globalException(Exception ex, Model model, HttpServletResponse response) {
         String das = "das";
         Class<? extends Exception> aClass = ex.getClass();
-        String statusCode = HttpStatus.CONFLICT.toString();
+        HttpStatus status= HttpStatus.CONFLICT;
         if (aClass.isAnnotationPresent(ResponseStatus.class)) {
             ResponseStatus annotation = aClass.getAnnotation(ResponseStatus.class);
-            statusCode = annotation.value().toString();
+            status= annotation.value();
         }
-        model.addAttribute("title",statusCode);
+        System.out.println(status.getReasonPhrase());
+        model.addAttribute("status",status);
         model.addAttribute("errorMessage", ex.getMessage());
         return "error/custom";
     }
