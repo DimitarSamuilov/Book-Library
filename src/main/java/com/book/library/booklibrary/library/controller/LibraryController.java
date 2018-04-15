@@ -53,9 +53,8 @@ public class LibraryController {
             model.addAttribute("libId", libraryId);
             return "library/edit_details";
         }
-        this.libraryService.editLibraryDetails(libraryId, library, principal);
-//        @todo redirect to lib profile page
-        return "redirect:/";
+        Long libraryDetails = this.libraryService.editLibraryDetails(libraryId, library, principal);
+        return "redirect:/profileDetails/"+libraryDetails;
     }
 
     @GetMapping("/profileDetails/{libraryId}")
