@@ -17,6 +17,30 @@
         <div class="row">
             <div class="col-sm-9">
 
+                <form th:method="GET" th:action="@{/books/all}">
+                    <fieldset>
+                        <legend>Select category</legend>
+                        <input th:type="hidden" th:name="page" th:value="${#request.getParameter('page')}">
+                        <div class="form-group">
+                            <select th:name="category" class="custom-select" th:object="${categories}" onchange="this.form.submit()">
+                                <option th:if="${#request.getParameter('category')==null}" selected>All</option>
+                                <option th:if="${#request.getParameter('category')!=null}" value="">All</option>
+                                <option th:if="${#request.getParameter('category')!=null && #request.getParameter('category').equals(cat.getName())}"
+                                        th:each="cat:${categories}"
+                                        th:value="${cat.getName()}"
+                                        th:text="${cat.getName()}"
+                                        selected
+                                >
+                                <option th:if="${#request.getParameter('category')!=cat.getName()}"
+                                        th:each="cat:${categories}"
+                                        th:value="${cat.getName()}"
+                                        th:text="${cat.getName()}"
+                                >
+                                </option>
+                            </select>
+                        </div>
+                    </fieldset>
+                </form>
                 <table class="table table-hover">
                     <thead>
                     <tr>
@@ -52,12 +76,13 @@
                         <th:block th:if="${books.hasPrevious()}">
                             <li class="page-item">
                                 <a class="page-link"
-                                   th:href="@{/libraries/all(page=${pageable.getPageNumber()-1})}">&laquo;</a>
+                                   th:href="@{/books/all(page=${pageable.getPageNumber()-1},category=${#request.getParameter('category')})}">&laquo;</a>
                             </li>
                         </th:block>
                         <th:block th:if="${books.hasNext()}">
                             <li class="page-item">
-                                <a class="page-link" th:href="@{/libraries/all(page=${pageable.getPageNumber()+1})}">&raquo;</a>
+                                <a class="page-link"
+                                   th:href="@{/books/all(page=${pageable.getPageNumber()+1},category=${#request.getParameter('category')})}">&raquo;</a>
                             </li>
                         </th:block>
                     </ul>

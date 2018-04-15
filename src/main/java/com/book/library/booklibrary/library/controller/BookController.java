@@ -52,7 +52,8 @@ public class BookController {
     }
 
     @GetMapping("/all")
-    public String bookList(@RequestParam(name = "category",required = false,defaultValue = "") String category,@PageableDefault(size = 10) Pageable pageable, Model model) {
+    public String bookList(@RequestParam(name = "category",required = false,defaultValue = "") String category,@PageableDefault(size = 2) Pageable pageable, Model model) {
+        model.addAttribute("categories",this.categoryService.getAllCategories());
         model.addAttribute("pageable", pageable);
         model.addAttribute("books", this.bookService.getAllBookPages(pageable,category));
         return "book/list";
