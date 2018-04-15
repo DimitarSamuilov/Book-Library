@@ -1,5 +1,7 @@
 package com.book.library.booklibrary.order.model.entity;
 
+import com.book.library.booklibrary.user.model.entity.User;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -15,6 +17,13 @@ public class Notification {
 
     private Date date;
 
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @Column(name = "is_viewed")
+    private boolean viewed;
+
     public Notification() {
     }
 
@@ -24,6 +33,22 @@ public class Notification {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public boolean getViewed() {
+        return viewed;
+    }
+
+    public void setViewed(boolean viewed) {
+        this.viewed = viewed;
     }
 
     public String getMessage() {

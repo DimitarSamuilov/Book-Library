@@ -5,6 +5,7 @@ import com.book.library.booklibrary.order.enums.OrderType;
 import com.book.library.booklibrary.user.model.entity.User;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "orders")
@@ -35,10 +36,14 @@ public class Order {
     @Column(name = "order_confirmed")
     private boolean orderConfirmed;
 
-    @Column(name = "contactNumber")
+    @Column(name = "contact_number")
     private String contactNumber;
 
+    @Column(name = "order_date")
+    private Date orderDate;
+
     public Order() {
+        this.orderDate = new Date();
     }
 
     public Long getId() {
@@ -103,6 +108,14 @@ public class Order {
 
     public void setOrderBook(Book orderBook) {
         this.orderBook = orderBook;
+    }
+
+    public Date getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.book.library.booklibrary.user.model.entity;
 
 import com.book.library.booklibrary.library.model.entity.Library;
+import com.book.library.booklibrary.order.model.entity.Notification;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -26,8 +27,11 @@ public class User {
     @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
     private Set<Role> roles;
 
-    @OneToOne(targetEntity = Library.class,mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Library.class, mappedBy = "user", cascade = CascadeType.ALL)
     private Library library;
+
+    @OneToMany(targetEntity = Notification.class, mappedBy = "user")
+    private Set<Notification> notifications;
 
     public User() {
         this.roles = new HashSet<>();
@@ -83,5 +87,13 @@ public class User {
 
     public void addRole(Role role) {
         this.roles.add(role);
+    }
+
+    public Set<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(Set<Notification> notifications) {
+        this.notifications = notifications;
     }
 }
