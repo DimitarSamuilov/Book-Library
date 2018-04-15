@@ -33,7 +33,7 @@ public class OrderController {
 
     @PostMapping("/make/{bookId}")
     public String processOrder(
-            @Valid @ModelAttribute AddOrder order,
+            @Valid @ModelAttribute(name = "order") AddOrder order,
             BindingResult bindingResult,
             @PathVariable("bookId") Long bookId,
             Model model,
@@ -43,9 +43,7 @@ public class OrderController {
             return "order/make";
         }
 
-        order.setBookId(bookId);
         Long orderId = this.orderService.makeOrder(order, principal);
-        //@todo maybe jms here for creating notifications
 
         return "redirect:/";
     }

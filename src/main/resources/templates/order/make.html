@@ -16,9 +16,14 @@
 
                 <form th:method="POST" th:action="@{/orders/make/{bookId}(bookId=${bookId})}"
                       th:object="${order}">
+                    <ul th:if="${#fields.hasErrors('*')}">
+                        <li th:each="err : ${#fields.globalErrors()}" th:text="${err}">
+                            Input is incorrect
+                        </li>
+                    </ul>
 
                     <fieldset>
-                        <legend>Info to edit:</legend>
+                        <legend>Order details:</legend>
                         <div class="form-group" th:classappend="${#fields.hasErrors('bookName')}? 'has-danger'">
                             <label for="book-name">Book Title:</label>
                             <input th:field="*{bookName}" class="form-control" id="book-name"
@@ -45,11 +50,11 @@
                         </div>
 
 
-                        <div th:class="form-group" th:classappend="${#fields.hasErrors('rentTime')}? 'has-danger'">
+                        <div th:class="form-group" th:classappend="${#fields.hasGlobalErrors()}? 'has-danger'">
                             <label for="book-rentTime">Rent time:</label>
                             <input th:field="*{rentTime}" class="form-control" id="book-rentTime"
-                                   th:classappend="${#fields.hasErrors('rentTime')}? 'is-invalid'">
-                            <div class="invalid-feedback" th:each="error : ${#fields.errors('rentTime')}"
+                                   th:classappend="${#fields.hasGlobalErrors()}? 'is-invalid'">
+                            <div class="invalid-feedback" th:each="error : ${#fields.globalErrors()}"
                                  th:text="${error}"></div>
                         </div>
 

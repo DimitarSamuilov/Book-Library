@@ -1,9 +1,7 @@
 package com.book.library.booklibrary.order.model.DTO;
 
-import com.book.library.booklibrary.order.enums.OrderType;
 import com.book.library.booklibrary.order.model.validation.rentPeriod.RentPeriod;
-import org.hibernate.validator.constraints.pl.REGON;
-
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -15,20 +13,22 @@ import javax.validation.constraints.Size;
 )
 public class AddOrder {
 
+    private static final String NOT_EMPTY_FIELD="Field cannot be empty";
 
     private Long bookId;
 
     private String bookName;
-    @NotNull
+
+    @NotNull(message = NOT_EMPTY_FIELD)
     private String orderType;
 
     private String rentTime;
 
-    @NotNull
-    @Size(min = 10, max = 255)
+    @NotEmpty(message = NOT_EMPTY_FIELD)
+    @Size(min = 10, max = 255,message = "Address must be between 10 and 255 strings")
     private String orderAddress;
 
-    @NotNull
+    @NotEmpty(message = NOT_EMPTY_FIELD)
     private String contactNumber;
 
     public AddOrder() {
@@ -80,5 +80,17 @@ public class AddOrder {
 
     public void setOrderType(String orderType) {
         this.orderType = orderType;
+    }
+
+    @Override
+    public String toString() {
+        return "AddOrder{" +
+                "bookId=" + bookId +
+                ", bookName='" + bookName + '\'' +
+                ", orderType='" + orderType + '\'' +
+                ", rentTime='" + rentTime + '\'' +
+                ", orderAddress='" + orderAddress + '\'' +
+                ", contactNumber='" + contactNumber + '\'' +
+                '}';
     }
 }

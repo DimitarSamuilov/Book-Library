@@ -23,10 +23,14 @@ public class RentPeriodValidator implements ConstraintValidator<RentPeriod, Obje
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext constraintValidatorContext) {
         String fieldOrderType = (String) new BeanWrapperImpl(value).getPropertyValue(this.orderTypeValue);
-        if (fieldOrderType.equalsIgnoreCase(OrderType.RENT.toString())) {
+        if (OrderType.RENT.toString().equalsIgnoreCase(fieldOrderType) && !fieldOrderType.equalsIgnoreCase("")) {
             String rentPeriod = (String) new BeanWrapperImpl(value).getPropertyValue(this.rentPeriodValue);
+            if (rentPeriod.isEmpty() || rentPeriod.equalsIgnoreCase("")) {
+                return false;
+            }
             try {
-                Integer finalRentPeriod = Integer.valueOf(rentPeriod);
+                int finalRentPeriod = Integer.valueOf(rentPeriod);
+
                 if (finalRentPeriod >= this.minPeriodValue) {
                     return true;
                 }
