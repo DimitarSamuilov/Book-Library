@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,14 +32,17 @@ public class LibraryController {
         this.libraryService = libraryService;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/all")
     public String allLibraries(@PageableDefault(size = 2) Pageable pageable, Model model) {
         model.addAttribute("libraries", this.userService.getUsersByRole("library", pageable));
         model.addAttribute("pageable", pageable);
-
         return "library/list";
     }
 
+    // TODO: 16.4.2018 г. maybe delete library by admin
+    
+    @PreAuthorize("hasAnyRole('ROLE_LIBRARY')")
     @GetMapping("/editDetails/{libraryName}")
     public String editLibraryDetails(Model model, @PathVariable(name = "libraryName") String libraryName, Principal principal) throws Exception {
         model.addAttribute("library", this.libraryService.getEditUserInfo(libraryName, principal));
@@ -46,6 +50,7 @@ public class LibraryController {
         return "library/edit_details";
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_LIBRARY')")
     @PostMapping("/editDetails/{libraryId}")
     public String processLibraryDetails(@Valid @ModelAttribute("library") EditLibraryDetails library, BindingResult bindingResult, @PathVariable(name = "libraryId") String libraryId, Principal principal, Model model) throws Exception {
         if (bindingResult.hasErrors()) {

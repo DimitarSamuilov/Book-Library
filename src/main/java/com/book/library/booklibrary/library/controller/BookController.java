@@ -7,6 +7,7 @@ import com.book.library.booklibrary.library.service.category.CategoryService;
 import com.book.library.booklibrary.library.service.category.CategoryServiceInterface;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,9 +30,9 @@ public class BookController {
         this.categoryService = categoryService;
     }
 
+    @PreAuthorize("hasRole('ROLE_LIBRARY')")
     @GetMapping("/add")
     public String addBook(AddBook addBook, Model model) {
-        //@todo redirect if libdetails are missing
         model.addAttribute("book", addBook);
         model.addAttribute("authors", this.authorService.getAllAuthors());
         model.addAttribute("categories", this.categoryService.getAllCategories());
@@ -40,7 +41,6 @@ public class BookController {
 
     @PostMapping("/add")
     public String processNewBook(@Valid @ModelAttribute("book") AddBook book, BindingResult bindingResult, Model model, Principal principal) throws Exception {
-        //@todo redirect if libdetails are missing
         if (bindingResult.hasErrors()) {
             model.addAttribute("authors", this.authorService.getAllAuthors());
             model.addAttribute("categories", this.categoryService.getAllCategories());
@@ -50,6 +50,7 @@ public class BookController {
         this.bookService.addNewBook(book, principal);
         return "redirect:/";
     }
+
 
     @GetMapping("/all")
     public String bookList(@RequestParam(name = "category",required = false,defaultValue = "") String category,@PageableDefault(size = 2) Pageable pageable, Model model) {

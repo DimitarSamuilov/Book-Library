@@ -3,6 +3,7 @@ package com.book.library.booklibrary.library.controller;
 import com.book.library.booklibrary.library.model.DTO.AuthorDTO;
 import com.book.library.booklibrary.library.model.entity.Author;
 import com.book.library.booklibrary.library.service.author.AuthorServiceInterface;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.validation.Valid;
 
 @Controller
+@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_LIBRARY')")
 @RequestMapping("/authors")
 public class AuthorController {
 

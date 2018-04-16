@@ -3,6 +3,7 @@ package com.book.library.booklibrary.order.controller;
 import com.book.library.booklibrary.library.service.book.BookService;
 import com.book.library.booklibrary.order.model.DTO.AddOrder;
 import com.book.library.booklibrary.order.service.order.OrderServiceInterface;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,6 +25,7 @@ public class OrderController {
         this.bookService = bookService;
     }
 
+    @PreAuthorize("hasRole('ROLE_READER')")
     @GetMapping("/make/{bookId}")
     public String makeOrder(@PathVariable(name = "bookId") Long bookId, Model model) throws Exception {
         model.addAttribute("bookId", bookId);
@@ -31,6 +33,7 @@ public class OrderController {
         return "order/make";
     }
 
+    @PreAuthorize("hasRole('ROLE_READER')")
     @PostMapping("/make/{bookId}")
     public String processOrder(
             @Valid @ModelAttribute(name = "order") AddOrder order,

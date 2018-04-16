@@ -17,7 +17,6 @@ public class GlobalExceptionHandlerController {
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(value = Exception.class)
     public String globalException(Exception ex, Model model, HttpServletResponse response) {
-        String das = "das";
         Class<? extends Exception> aClass = ex.getClass();
         HttpStatus status= HttpStatus.CONFLICT;
         if (aClass.isAnnotationPresent(ResponseStatus.class)) {
