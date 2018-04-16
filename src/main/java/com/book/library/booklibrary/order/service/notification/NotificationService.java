@@ -1,16 +1,21 @@
 package com.book.library.booklibrary.order.service.notification;
 
+import com.book.library.booklibrary.order.model.DTO.BasicNotification;
 import com.book.library.booklibrary.order.model.entity.Notification;
 import com.book.library.booklibrary.order.repository.NotificationRepository;
 import com.book.library.booklibrary.user.model.entity.User;
 import com.book.library.booklibrary.user.service.UserServiceInterface;
+import org.modelmapper.ModelMapper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Service
 public class NotificationService implements NotificationServiceInterface {
@@ -21,10 +26,12 @@ public class NotificationService implements NotificationServiceInterface {
 
     private UserServiceInterface userService;
     private NotificationRepository notificationRepository;
+    private ModelMapper modelMapper;
 
-    public NotificationService(UserServiceInterface userService, NotificationRepository notificationRepository) {
+    public NotificationService(UserServiceInterface userService, NotificationRepository notificationRepository, ModelMapper modelMapper) {
         this.userService = userService;
         this.notificationRepository = notificationRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -52,9 +59,26 @@ public class NotificationService implements NotificationServiceInterface {
     }
 
     @Override
-    @Async
-    public CompletableFuture<Void> printAsynchMessage() {
-        System.out.println("Asynch task completed");
-        return CompletableFuture.completedFuture(null);
+    public List<BasicNotification> getLatestNotifications(Principal principal) {
+        if (principal == null) {
+            return new ArrayList<>();
+        }
+        return
+                this.notificationRepository
+                        .findFirst5ByUserUsername(principal.getName()).stream()
+                        .map(notification ->
+                                this.modelMapper
+                                        .map(notification, BasicNotification.class))
+                        .collect(Collectors.toList());
+    }
+
+    @Override
+    public void markNotificationViewed(Long notificationId) {
+        Optional<Notification> notificationOptional = this.notificationRepository.findById(notificationId);
+        if (notificationOptional.isPresent()){
+            Notification notification = notificationOptional.get();
+            notification.setViewed(true);
+            this.notificationRepository.save(notification);
+        }
     }
 }

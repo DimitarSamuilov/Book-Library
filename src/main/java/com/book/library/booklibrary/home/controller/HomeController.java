@@ -17,7 +17,6 @@ public class HomeController {
 
     @GetMapping("/")
     public String home() {
-        this.notificationService.printAsynchMessage();
         return "home/index";
     }
 
