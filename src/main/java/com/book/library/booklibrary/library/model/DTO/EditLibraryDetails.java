@@ -17,8 +17,8 @@ public class EditLibraryDetails {
     private Double longitude;
 
     @NotNull(message = EMPTY_FIELD_ERROR)
-    @Max(value = 90, message = LATITUDE_ERROR_MESSAGE)
-    @Min(value = -90, message = LATITUDE_ERROR_MESSAGE)
+    @Max(value = 85, message = LATITUDE_ERROR_MESSAGE)
+    @Min(value = -85, message = LATITUDE_ERROR_MESSAGE)
     private Double latitude;
 
     @Length(min = 5, message = SHORT_DESCRIPTION_MESSAGE)

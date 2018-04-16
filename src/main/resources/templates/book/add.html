@@ -18,7 +18,7 @@
                       th:object="${book}">
 
                     <fieldset>
-                        <legend>Info to edit:</legend>
+                        <legend>Add book:</legend>
                         <div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-danger'">
                             <label for="lib-name">name:</label>
                             <input th:field="*{name}" class="form-control" id="lib-name"

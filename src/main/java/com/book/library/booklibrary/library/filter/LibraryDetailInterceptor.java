@@ -19,6 +19,8 @@ import java.util.Optional;
 @Component
 public class LibraryDetailInterceptor extends HandlerInterceptorAdapter {
 
+    public static final String NULL_LIBRARY_DETAILS = "You must fill details before you can adda a book";
+
     private UserServiceInterface userService;
 
     public LibraryDetailInterceptor(UserServiceInterface userService) {
@@ -28,16 +30,23 @@ public class LibraryDetailInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         SecurityContextImpl secContext = (SecurityContextImpl) request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
-        // TODO: 15.4.2018 г. Just check if library details are entered before allowing Library to add book 
+        // TODO: 15.4.2018 г. Just check if library details are entered before allowing Library to add book
         if (secContext != null) {
             UserDetails principal = (UserDetails) secContext.getAuthentication().getPrincipal();
             String username = principal.getUsername();
             Optional<User> userOptional = this.userService.getUserByUsername(username);
-
-        } else {
-            System.out.println("not logged");
+            if (userOptional.isPresent()) {
+                if (userOptional.get().getLibrary() == null) {
+                    System.out.println(userOptional.get());
+                    response.sendRedirect(
+                                    "/libraries/editDetails/" +
+                                            userOptional.get().getUsername() +
+                                            "?message=" +
+                                            LibraryDetailInterceptor.NULL_LIBRARY_DETAILS);
+                    return true;
+                }
+            }
         }
-
         return true;
     }
 }

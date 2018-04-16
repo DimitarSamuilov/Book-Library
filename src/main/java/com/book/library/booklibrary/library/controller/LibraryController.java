@@ -54,7 +54,7 @@ public class LibraryController {
             return "library/edit_details";
         }
         Long libraryDetails = this.libraryService.editLibraryDetails(libraryId, library, principal);
-        return "redirect:/profileDetails/"+libraryDetails;
+        return "redirect:/libraries/profileDetails/"+libraryDetails;
     }
 
     @GetMapping("/profileDetails/{libraryId}")
