@@ -21,7 +21,6 @@
                             Input is incorrect
                         </li>
                     </ul>
-
                     <fieldset>
                         <legend>Order details:</legend>
                         <div class="form-group" th:classappend="${#fields.hasErrors('bookName')}? 'has-danger'">
@@ -39,8 +38,8 @@
                             <div class="invalid-feedback" th:each="error : ${#fields.errors('orderAddress')}"
                                  th:text="${error}"></div>
                         </div>
-
-
+                        <input type="hidden" th:field="*{buyPrice}">
+                        <input type="hidden" th:field="*{rentPrice}">
                         <div class="form-group" th:classappend="${#fields.hasErrors('contactNumber')}? 'has-danger'">
                             <label for="order-number">Contact number:</label>
                             <input th:field="*{contactNumber}" class="form-control" id="order-number"
@@ -58,6 +57,8 @@
                                  th:text="${error}"></div>
                         </div>
 
+                        <h4 th:text="'Buy price:' + *{buyPrice}"></h4>
+                        <h4 th:text="'Rent price per day:' + *{buyPrice}"></h4>
                         <fieldset class="form-group" th:classappend="${#fields.hasErrors('orderType')}? 'has-danger'">
                             <legend>Order type:</legend>
                             <div class="form-check"

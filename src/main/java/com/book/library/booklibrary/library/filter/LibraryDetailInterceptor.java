@@ -30,7 +30,6 @@ public class LibraryDetailInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         SecurityContextImpl secContext = (SecurityContextImpl) request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
-        // TODO: 15.4.2018 г. Just check if library details are entered before allowing Library to add book
         if (secContext != null) {
             UserDetails principal = (UserDetails) secContext.getAuthentication().getPrincipal();
             String username = principal.getUsername();

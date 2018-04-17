@@ -3,7 +3,9 @@ package com.book.library.booklibrary.library.service.author;
 import com.book.library.booklibrary.library.model.DTO.AuthorDTO;
 import com.book.library.booklibrary.library.model.entity.Author;
 import com.book.library.booklibrary.library.repository.AuthorRepository;
+import org.hibernate.annotations.Cache;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +21,7 @@ public class AuthorService implements AuthorServiceInterface {
         this.authorRepository = authorRepository;
     }
 
+    @Cacheable("all_authors")
     @Override
     public List<Author> getAllAuthors() {
         return this.authorRepository.findAll();

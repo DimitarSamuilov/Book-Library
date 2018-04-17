@@ -1,5 +1,6 @@
 package com.book.library.booklibrary.order.service.order;
 
+import com.book.library.booklibrary.home.exception.NoSuchResourceException;
 import com.book.library.booklibrary.library.model.entity.Book;
 import com.book.library.booklibrary.library.service.book.BookService;
 import com.book.library.booklibrary.library.service.book.BookServiceInterface;
@@ -45,14 +46,19 @@ public class OrderService implements OrderServiceInterface {
     }
 
     @Override
-    public AddOrder prepareOrder(Long bookId) throws Exception {
+    public AddOrder prepareOrder(Long bookId) throws NoSuchResourceException {
+
         Optional<Book> bookOptional = this.bookService.getBookById(bookId);
+
         if (!bookOptional.isPresent()) {
-            throw new Exception("No such book!");
+            throw new NoSuchResourceException("No such book!");
         }
+
         AddOrder bookOrder = new AddOrder();
         bookOrder.setBookId(bookId);
         bookOrder.setBookName(bookOptional.get().getName());
+        bookOrder.setRentPrice(bookOptional.get().getRentPrice());
+        bookOrder.setBuyPrice(bookOptional.get().getBuyPrice());
 
         return bookOrder;
     }
@@ -62,7 +68,7 @@ public class OrderService implements OrderServiceInterface {
         Order finalOrder;
         Optional<Book> bookOptional = this.bookService.getBookById(orderDetails.getBookId());
         if (!bookOptional.isPresent()) {
-            throw new Exception("invalid book");
+            throw new NoSuchResourceException("invalid book");
         }
         Optional<User> userOptional = this.userService.getUserByUsername(principal.getName());
 

@@ -1,6 +1,8 @@
 package com.book.library.booklibrary.order.model.DTO;
 
 import com.book.library.booklibrary.order.model.validation.rentPeriod.RentPeriod;
+
+import javax.persistence.Column;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -32,6 +34,10 @@ public class AddOrder {
     @Pattern(message = "Invalid phone number",regexp = "^\\s*(?:\\+?(\\d{1,3}))?([-. (]*(\\d{3})[-. )]*)?((\\d{3})[-. ]*(\\d{2,4})(?:[-.x ]*(\\d+))?)\\s*$")
     @NotEmpty(message = NOT_EMPTY_FIELD)
     private String contactNumber;
+
+    private Double buyPrice;
+
+    private Double rentPrice;
 
     public AddOrder() {
     }
@@ -82,6 +88,22 @@ public class AddOrder {
 
     public void setOrderType(String orderType) {
         this.orderType = orderType;
+    }
+
+    public Double getBuyPrice() {
+        return buyPrice;
+    }
+
+    public void setBuyPrice(Double buyPrice) {
+        this.buyPrice = buyPrice;
+    }
+
+    public Double getRentPrice() {
+        return rentPrice;
+    }
+
+    public void setRentPrice(Double rentPrice) {
+        this.rentPrice = rentPrice;
     }
 
     @Override

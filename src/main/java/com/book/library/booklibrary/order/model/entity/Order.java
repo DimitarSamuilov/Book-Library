@@ -6,6 +6,7 @@ import com.book.library.booklibrary.user.model.entity.User;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "orders")
@@ -42,6 +43,14 @@ public class Order {
     @Column(name = "order_date")
     private Date orderDate;
 
+    @ManyToMany(targetEntity = Notification.class)
+    @JoinTable(
+            name = "notification_order",
+            joinColumns = {@JoinColumn(name = "order_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "notification_id", referencedColumnName = "id")}
+    )
+    private Set<Notification> notifications;
+
     public Order() {
         this.orderDate = new Date();
     }
@@ -52,6 +61,14 @@ public class Order {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Set<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(Set<Notification> notifications) {
+        this.notifications = notifications;
     }
 
     public User getCustomer() {

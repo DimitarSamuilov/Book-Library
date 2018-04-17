@@ -34,6 +34,8 @@ public class NotificationService implements NotificationServiceInterface {
         this.modelMapper = modelMapper;
     }
 
+
+    // TODO: 17.4.2018 г. refactor and add to frontend and do chrons for notification return book 
     @Override
     @Async
     public CompletableFuture<Void> asyncAddCurrentUserNotification(String message, Date showDate, Principal principal) {

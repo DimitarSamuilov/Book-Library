@@ -1,9 +1,12 @@
 package com.book.library.booklibrary.order.model.entity;
 
+import com.book.library.booklibrary.library.model.entity.Book;
+import com.book.library.booklibrary.order.enums.NotificationType;
 import com.book.library.booklibrary.user.model.entity.User;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "notifications")
@@ -24,7 +27,40 @@ public class Notification {
     @Column(name = "is_viewed")
     private boolean viewed;
 
+
+    @Enumerated(EnumType.STRING)
+    private NotificationType notificationType;
+
+    @ManyToMany(targetEntity = Order.class)
+    @JoinTable(
+            name = "notification_order",
+            joinColumns = {@JoinColumn(name = "notification_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "order_id", referencedColumnName = "id")}
+    )
+    private Set<Order> relatedOrder;
+
     public Notification() {
+    }
+
+    public boolean isViewed() {
+        return viewed;
+    }
+
+
+    public NotificationType getNotificationType() {
+        return notificationType;
+    }
+
+    public void setNotificationType(NotificationType notificationType) {
+        this.notificationType = notificationType;
+    }
+
+    public Set<Order> getRelatedOrder() {
+        return relatedOrder;
+    }
+
+    public void setRelatedOrder(Set<Order> relatedOrder) {
+        this.relatedOrder = relatedOrder;
     }
 
     public Long getId() {

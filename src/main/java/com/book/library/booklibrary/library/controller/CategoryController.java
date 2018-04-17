@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
 @Controller
@@ -34,7 +35,7 @@ public class CategoryController {
     }
 
     @PostMapping("add")
-    public String processCategory(@Valid @ModelAttribute("category") CategoryDTO category, BindingResult bindingResult, Model model) {
+    public String processCategory(@Valid @ModelAttribute("category") CategoryDTO category, BindingResult bindingResult, Model model) throws ConstraintViolationException {
         if (bindingResult.hasErrors()) {
             model.addAttribute("category", category);
             return "category/add";
