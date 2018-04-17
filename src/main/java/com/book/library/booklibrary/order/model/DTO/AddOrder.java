@@ -3,6 +3,7 @@ package com.book.library.booklibrary.order.model.DTO;
 import com.book.library.booklibrary.order.model.validation.rentPeriod.RentPeriod;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @RentPeriod(
@@ -28,6 +29,7 @@ public class AddOrder {
     @Size(min = 10, max = 255,message = "Address must be between 10 and 255 strings")
     private String orderAddress;
 
+    @Pattern(message = "Invalid phone number",regexp = "^\\s*(?:\\+?(\\d{1,3}))?([-. (]*(\\d{3})[-. )]*)?((\\d{3})[-. ]*(\\d{2,4})(?:[-.x ]*(\\d+))?)\\s*$")
     @NotEmpty(message = NOT_EMPTY_FIELD)
     private String contactNumber;
 
