@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface NotificationRepository extends JpaRepository<Notification,Long>{
 
-    List<Notification> findFirst5ByUserUsername(String username);
+    List<Notification> findFirst5ByRelatedOrder_CustomerUsername(String username);
 }

@@ -2,25 +2,22 @@ package com.book.library.booklibrary.order.service.order;
 
 import com.book.library.booklibrary.home.exception.NoSuchResourceException;
 import com.book.library.booklibrary.library.model.entity.Book;
-import com.book.library.booklibrary.library.service.book.BookService;
 import com.book.library.booklibrary.library.service.book.BookServiceInterface;
-import com.book.library.booklibrary.order.enums.OrderType;
+import com.book.library.booklibrary.order.enums.*;
 import com.book.library.booklibrary.order.model.DTO.AddOrder;
 import com.book.library.booklibrary.order.model.entity.Order;
 import com.book.library.booklibrary.order.repository.OrderRepository;
-import com.book.library.booklibrary.order.service.notification.NotificationService;
-import com.book.library.booklibrary.order.service.notification.NotificationServiceInterface;
+import com.book.library.booklibrary.order.service.notification.*;
 import com.book.library.booklibrary.user.model.entity.User;
-import com.book.library.booklibrary.user.service.UserService;
 import com.book.library.booklibrary.user.service.UserServiceInterface;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 
-import static com.book.library.booklibrary.order.service.notification.NotificationService.BUY_BOOK_MESSAGE;
 
 @Service
 public class OrderService implements OrderServiceInterface {
@@ -80,15 +77,23 @@ public class OrderService implements OrderServiceInterface {
         finalOrder.setOrderBook(bookOptional.get());
         finalOrder.setCustomer(userOptional.get());
 
-        String message = "";
+        NotificationType notificationType;
         if (finalOrder.getOrderType().equals(OrderType.BUY)) {
-            message = NotificationService.BUY_BOOK_MESSAGE;
+            notificationType = NotificationType.BUY_BOOK;
         } else {
-            message = NotificationService.RENT_BOOK_MESSAGE;
+            notificationType = NotificationType.RENT_BOOK;
         }
+        Order order = this.orderRepository.save(finalOrder);
 
-        this.notificationService.asyncAddCurrentUserNotification(String.format(message, orderDetails.getBookName()), new Date(), principal);
 
-        return this.orderRepository.save(finalOrder).getId();
+        this.notificationService.asyncAddCurrentUserNotification(order, notificationType, this.notificationDate(), principal);
+
+        return order.getId();
+    }
+
+    private Date notificationDate() {
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, NotificationService.NOTIFICATION_DEFAULT_PERIOD);
+        return c.getTime();
     }
 }

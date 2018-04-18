@@ -20,24 +20,15 @@ public class Notification {
 
     private Date date;
 
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
     @Column(name = "is_viewed")
     private boolean viewed;
-
 
     @Enumerated(EnumType.STRING)
     private NotificationType notificationType;
 
-    @ManyToMany(targetEntity = Order.class)
-    @JoinTable(
-            name = "notification_order",
-            joinColumns = {@JoinColumn(name = "notification_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "order_id", referencedColumnName = "id")}
-    )
-    private Set<Order> relatedOrder;
+    @ManyToOne(targetEntity = Order.class)
+    @JoinColumn(name = "order_id")
+    private Order relatedOrder;
 
     public Notification() {
     }
@@ -55,11 +46,12 @@ public class Notification {
         this.notificationType = notificationType;
     }
 
-    public Set<Order> getRelatedOrder() {
+
+    public Order getRelatedOrder() {
         return relatedOrder;
     }
 
-    public void setRelatedOrder(Set<Order> relatedOrder) {
+    public void setRelatedOrder(Order relatedOrder) {
         this.relatedOrder = relatedOrder;
     }
 
@@ -69,14 +61,6 @@ public class Notification {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public boolean getViewed() {

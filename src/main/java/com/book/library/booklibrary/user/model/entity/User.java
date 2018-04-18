@@ -30,9 +30,6 @@ public class User {
     @OneToOne(targetEntity = Library.class, mappedBy = "user", cascade = CascadeType.ALL)
     private Library library;
 
-    @OneToMany(targetEntity = Notification.class, mappedBy = "user")
-    private Set<Notification> notifications;
-
     public User() {
         this.roles = new HashSet<>();
     }
@@ -89,11 +86,4 @@ public class User {
         this.roles.add(role);
     }
 
-    public Set<Notification> getNotifications() {
-        return notifications;
-    }
-
-    public void setNotifications(Set<Notification> notifications) {
-        this.notifications = notifications;
-    }
 }

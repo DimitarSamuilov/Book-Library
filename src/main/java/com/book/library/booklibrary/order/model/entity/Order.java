@@ -43,12 +43,7 @@ public class Order {
     @Column(name = "order_date")
     private Date orderDate;
 
-    @ManyToMany(targetEntity = Notification.class)
-    @JoinTable(
-            name = "notification_order",
-            joinColumns = {@JoinColumn(name = "order_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "notification_id", referencedColumnName = "id")}
-    )
+    @OneToMany(mappedBy = "relatedOrder")
     private Set<Notification> notifications;
 
     public Order() {
@@ -61,14 +56,6 @@ public class Order {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Set<Notification> getNotifications() {
-        return notifications;
-    }
-
-    public void setNotifications(Set<Notification> notifications) {
-        this.notifications = notifications;
     }
 
     public User getCustomer() {
