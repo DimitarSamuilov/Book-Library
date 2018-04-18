@@ -9,6 +9,7 @@ import com.book.library.booklibrary.user.model.entity.User;
 import com.book.library.booklibrary.user.service.UserServiceInterface;
 import org.modelmapper.ModelMapper;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
