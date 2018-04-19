@@ -76,17 +76,17 @@ public class OrderService implements OrderServiceInterface {
         finalOrder = this.modelMapper.map(orderDetails, Order.class);
         finalOrder.setOrderBook(bookOptional.get());
         finalOrder.setCustomer(userOptional.get());
-
-        NotificationType notificationType;
-        if (finalOrder.getOrderType().equals(OrderType.BUY)) {
-            notificationType = NotificationType.BUY_BOOK;
-        } else {
-            notificationType = NotificationType.RENT_BOOK;
-        }
         Order order = this.orderRepository.save(finalOrder);
 
+        NotificationType notificationType;
 
-        this.notificationService.asyncAddCurrentUserNotification(order, notificationType, this.notificationDate(), principal);
+        if (finalOrder.getOrderType().equals(OrderType.BUY)) {
+            notificationType = NotificationType.BUY_BOOK;
+            this.notificationService.asyncAddCurrentUserNotification(order, notificationType, this.notificationDate(),new Date(),  principal);
+        } else {
+            notificationType = NotificationType.RENT_BOOK;
+            this.notificationService.asyncAddCurrentUserNotification(order, notificationType, this.notificationDate(),new Date(), principal);
+        }
 
         return order.getId();
     }

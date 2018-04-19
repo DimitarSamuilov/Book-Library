@@ -2,6 +2,7 @@ package com.book.library.booklibrary.order.service.notification;
 
 import com.book.library.booklibrary.order.enums.NotificationType;
 import com.book.library.booklibrary.order.model.DTO.BasicNotification;
+import com.book.library.booklibrary.order.model.entity.Notification;
 import com.book.library.booklibrary.order.model.entity.Order;
 
 import java.security.Principal;
@@ -16,9 +17,12 @@ public interface NotificationServiceInterface {
     CompletableFuture<Void> asyncAddCurrentUserNotification(Order order,
                                                             NotificationType notificationType,
                                                             Date showDate,
+                                                            Date startDate,
                                                             Principal principal);
 
-    void addNotificationForUser(String message, Date showDate, String username);
-
     void markNotificationViewed(Long notificationId);
+
+    void deleteNotification(Long notificationId);
+
+    List<Notification> getOldNotifications();
 }

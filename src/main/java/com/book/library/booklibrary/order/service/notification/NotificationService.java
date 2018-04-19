@@ -14,10 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -37,13 +34,13 @@ public class NotificationService implements NotificationServiceInterface {
     }
 
 
-    // TODO: 17.4.2018 г. refactor and add to frontend and do chrons for notification return book 
     @Override
     @Async
     public CompletableFuture<Void> asyncAddCurrentUserNotification(
             Order order,
             NotificationType notificationType,
             Date showDate,
+            Date startDate,
             Principal principal
     ) {
         Optional<User> currentUser = this.userService.getUserByUsername(principal.getName());
@@ -56,16 +53,13 @@ public class NotificationService implements NotificationServiceInterface {
         notification.setNotificationType(notificationType);
         notification.setViewed(false);
         notification.setRelatedOrder(order);
+        notification.setStartDate(startDate);
 
         this.notificationRepository.save(notification);
 
         return CompletableFuture.completedFuture(null);
     }
 
-    @Override
-    public void addNotificationForUser(String message, Date showDate, String username) {
-
-    }
 
     @Override
     public List<BasicNotification> getLatestNotifications(Principal principal) {
@@ -80,14 +74,21 @@ public class NotificationService implements NotificationServiceInterface {
                                 basicNotification.setFormattedMessage
                                         (this.processNotificationMessage
                                                 (basicNotification.getNotificationType(),
-                                                        basicNotification.getRelatedOrder().getOrderBook().getName(), basicNotification.getDate())))
+                                                        basicNotification.getRelatedOrder())))
                         .collect(Collectors.toList())
                 ;
     }
 
-    private String processNotificationMessage(NotificationType notificationType, String bookName, Date notificationDate) {
-
-        return String.format(notificationType.getNotificationFormat(), bookName, NotificationService.NOTIFICATION_DATE_FORMAT.format(notificationDate));
+    private String processNotificationMessage(NotificationType notificationType, Order order) {
+        Date displayDate;
+        if (NotificationType.RETURN_BOOK == notificationType) {
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.DATE, order.getRentTime());
+            displayDate = c.getTime();
+        } else {
+            displayDate = order.getOrderDate();
+        }
+        return String.format(notificationType.getNotificationFormat(), order.getOrderBook().getName(), NotificationService.NOTIFICATION_DATE_FORMAT.format(displayDate));
     }
 
     @Override
@@ -98,5 +99,15 @@ public class NotificationService implements NotificationServiceInterface {
             notification.setViewed(true);
             this.notificationRepository.save(notification);
         }
+    }
+
+    @Override
+    public void deleteNotification(Long notificationId) {
+        this.notificationRepository.deleteById(notificationId);
+    }
+
+    @Override
+    public List<Notification> getOldNotifications() {
+        return this.notificationRepository.findAllByDateBeforeOrViewed(new Date(), true);
     }
 }

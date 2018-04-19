@@ -20,6 +20,9 @@ public class Notification {
 
     private Date date;
 
+    @Column(name = "startDate")
+    private Date startDate;
+
     @Column(name = "is_viewed")
     private boolean viewed;
 
@@ -46,6 +49,13 @@ public class Notification {
         this.notificationType = notificationType;
     }
 
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 
     public Order getRelatedOrder() {
         return relatedOrder;
