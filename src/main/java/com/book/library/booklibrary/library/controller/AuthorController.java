@@ -1,16 +1,16 @@
 package com.book.library.booklibrary.library.controller;
 
+import com.book.library.booklibrary.home.exception.NoSuchResourceException;
 import com.book.library.booklibrary.library.model.DTO.AuthorDTO;
 import com.book.library.booklibrary.library.model.entity.Author;
 import com.book.library.booklibrary.library.service.author.AuthorServiceInterface;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -41,6 +41,39 @@ public class AuthorController {
         }
 
         this.authorService.addAuthor(author);
-        return "redirect:/";
+        return "redirect:/authors/all";
     }
+
+    @GetMapping("/all")
+    public String allAuthors(@PageableDefault(size = 2) Pageable pageable, Model model) {
+        model.addAttribute("authors", this.authorService.getAuthorsPageable(pageable));
+        model.addAttribute("pageable", pageable);
+        return "author/list";
+    }
+
+    @GetMapping("/editAuthor/{id}")
+    public String editAuthor(@PathVariable(name = "id") Long id, Model model) {
+
+        model.addAttribute("author", this.authorService.getAuthorById(id));
+        return "author/add";
+    }
+
+    @PostMapping("/editAuthor/{id}")
+    public String processEditAuthor(
+            @Valid @ModelAttribute("author") AuthorDTO authorDTO,
+            BindingResult bindingResult, @PathVariable(name = "id") Long id,
+            Model model
+    ) throws NoSuchResourceException {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("author", authorDTO);
+            return "author/add";
+        }
+        authorDTO.setId(id);
+        this.authorService.getAuthorById(id);
+        this.authorService.addAuthor(authorDTO);
+        return "redirect:/authors/all";
+    }
+
+
 }

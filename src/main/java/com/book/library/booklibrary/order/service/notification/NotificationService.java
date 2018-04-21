@@ -1,5 +1,6 @@
 package com.book.library.booklibrary.order.service.notification;
 
+import com.book.library.booklibrary.home.exception.NoSuchNotificationException;
 import com.book.library.booklibrary.home.exception.NoSuchResourceException;
 import com.book.library.booklibrary.order.enums.NotificationType;
 import com.book.library.booklibrary.order.model.DTO.BasicNotification;
@@ -102,7 +103,7 @@ public class NotificationService implements NotificationServiceInterface {
             notification.setViewed(true);
             this.notificationRepository.save(notification);
         } else {
-            throw new NoSuchResourceException("invalid notification Id");
+            throw new NoSuchNotificationException("invalid notification Id");
         }
     }
 

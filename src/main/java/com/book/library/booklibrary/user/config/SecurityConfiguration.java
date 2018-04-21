@@ -45,9 +45,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and()
                 .exceptionHandling().accessDeniedPage("/unauthorized")
         .and()
-                .userDetailsService(this.userDetailsService)
-                .csrf()
-                .disable();
+                .userDetailsService(this.userDetailsService);
 
     }
 }

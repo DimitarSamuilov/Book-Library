@@ -17,7 +17,10 @@
                 <p th:if="${#request.getParameter('message')!=null}" th:text="${#request.getParameter('message')}"></p>
                 <form th:method="POST" th:action="@{/libraries/editDetails/{libId}(libId=${libId})}"
                       th:object="${library}">
-
+                    <input
+                            type="hidden"
+                            th:name="${_csrf.parameterName}"
+                            th:value="${_csrf.token}" />
                     <fieldset>
                         <legend>Info to edit:</legend>
                         <div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-danger'">

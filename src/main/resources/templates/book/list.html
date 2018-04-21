@@ -18,6 +18,10 @@
             <div class="col-sm-9">
 
                 <form th:method="GET" th:action="@{/books/all}">
+                    <input
+                            type="hidden"
+                            th:name="${_csrf.parameterName}"
+                            th:value="${_csrf.token}" />
                     <fieldset>
                         <legend>Select category</legend>
                         <input th:type="hidden" th:name="page" th:value="${#request.getParameter('page')}">

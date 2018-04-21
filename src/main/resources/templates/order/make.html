@@ -16,6 +16,10 @@
 
                 <form th:method="POST" th:action="@{/orders/make/{bookId}(bookId=${bookId})}"
                       th:object="${order}">
+                    <input
+                            type="hidden"
+                            th:name="${_csrf.parameterName}"
+                            th:value="${_csrf.token}" />
                     <ul th:if="${#fields.hasErrors('*')}">
                         <li th:each="err : ${#fields.globalErrors()}" th:text="${err}">
                             Input is incorrect

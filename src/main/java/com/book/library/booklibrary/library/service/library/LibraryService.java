@@ -1,5 +1,7 @@
 package com.book.library.booklibrary.library.service.library;
 
+import com.book.library.booklibrary.home.exception.LibraryNotFilledException;
+import com.book.library.booklibrary.home.exception.NoSuchLibraryException;
 import com.book.library.booklibrary.home.exception.NoSuchResourceException;
 import com.book.library.booklibrary.library.model.DTO.EditLibraryDetails;
 import com.book.library.booklibrary.library.model.entity.Library;
@@ -46,7 +48,7 @@ public class LibraryService implements LibraryServiceInterface {
                 return libUser.get().getLibrary();
             }
         } else {
-            throw new NoSuchResourceException("No such library ");
+            throw new NoSuchLibraryException("No such library ");
         }
         return null;
     }
@@ -106,7 +108,7 @@ public class LibraryService implements LibraryServiceInterface {
         Optional<User> userOptional = this.userRepository.findById(id);
 
         if (!userOptional.isPresent()) {
-            throw new NoSuchResourceException("No such Library");
+            throw new NoSuchLibraryException("No such Library");
         }
 
         if (userOptional.get().getRoles().stream().noneMatch(role -> role.getName().equalsIgnoreCase(UserType.LIBRARY.toString()))) {
@@ -114,7 +116,7 @@ public class LibraryService implements LibraryServiceInterface {
         }
 
         if (userOptional.get().getLibrary() == null) {
-            throw new NoSuchResourceException("Library profile is not ready for users");
+            throw new LibraryNotFilledException();
         }
 
         LibraryDetailsViewModel libraryDetailsViewModel = this.modelMapper.map(userOptional.get().getLibrary(), LibraryDetailsViewModel.class);
@@ -126,15 +128,11 @@ public class LibraryService implements LibraryServiceInterface {
     @Async
     @Override
     public CompletableFuture<Void> deleteLibraryByName(String libraryName) {
-        try {
-            Optional<Library> libraryOptional = this.libraryRepository.findFirstByUserUsername(libraryName);
 
-            if (libraryOptional.isPresent()) {
-                this.userRepository.deleteById(libraryOptional.get().getUser().getId());
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        Optional<Library> libraryOptional = this.libraryRepository.findFirstByUserUsername(libraryName);
+
+        libraryOptional.ifPresent(library -> this.userRepository.deleteById(library.getUser().getId()));
+
         return CompletableFuture.completedFuture(null);
     }
 }

@@ -16,7 +16,10 @@
 
                 <form th:method="POST" th:action="@{/categories/add}"
                       th:object="${category}">
-
+                    <input
+                            type="hidden"
+                            th:name="${_csrf.parameterName}"
+                            th:value="${_csrf.token}" />
                     <fieldset>
                         <legend>Author info :</legend>
                         <div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-danger'">

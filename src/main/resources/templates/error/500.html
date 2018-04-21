@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+<head>
+    <th:block th:replace="~{layout/head}">
+
+    </th:block>
+    <title>Server error</title>
+</head>
+<body>
+
+<div th:replace="~{layout/navigation}"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="error-template">
+                <h1>
+                    Oops!</h1>
+                <h2>Major Error</h2>
+                <div class="error-details">
+                    Code monkeys are dispatched to deal with the problem
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

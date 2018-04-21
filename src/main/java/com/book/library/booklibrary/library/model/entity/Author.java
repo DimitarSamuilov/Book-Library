@@ -18,7 +18,7 @@ public class Author {
     @Column(nullable = false, columnDefinition = "text")
     private String description;
 
-    @OneToMany(mappedBy = "author", targetEntity = Book.class)
+    @OneToMany(mappedBy = "author", targetEntity = Book.class,cascade = CascadeType.DETACH)
     private Set<Book> books;
 
     public Author() {

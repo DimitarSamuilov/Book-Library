@@ -1,5 +1,6 @@
 package com.book.library.booklibrary.home.controller;
 
+import com.book.library.booklibrary.home.exception.NoSuchLibraryException;
 import com.book.library.booklibrary.home.exception.NoSuchResourceException;
 import com.book.library.booklibrary.order.service.notification.NotificationServiceInterface;
 import org.springframework.stereotype.Controller;
@@ -26,7 +27,7 @@ public class HomeController {
         if (error.equalsIgnoreCase("first")) {
             throw new Exception("custom Error message");
         }else if(error.equalsIgnoreCase("second")) {
-            throw new NoSuchResourceException("No such resource");
+            throw new NoSuchLibraryException("No such resource");
         }
         return "home/index";
     }

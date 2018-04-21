@@ -1,5 +1,6 @@
 package com.book.library.booklibrary.order.controller;
 
+import com.book.library.booklibrary.home.exception.NoSuchNotificationException;
 import com.book.library.booklibrary.home.exception.NoSuchResourceException;
 import com.book.library.booklibrary.order.model.DTO.BasicNotification;
 import com.book.library.booklibrary.order.service.notification.NotificationService;
@@ -39,7 +40,7 @@ public class NotificationController {
             notificationId = Long.valueOf(id);
 
         } catch (NumberFormatException nfe) {
-            throw new NoSuchResourceException("invalid notification id");
+            throw new NoSuchNotificationException("invalid notification id");
         }
         this.notificationServiceInterface.markNotificationViewed(notificationId);
         return "{id:" + notificationId + "}";

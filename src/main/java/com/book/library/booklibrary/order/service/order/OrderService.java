@@ -1,5 +1,6 @@
 package com.book.library.booklibrary.order.service.order;
 
+import com.book.library.booklibrary.home.exception.NoSuchBookException;
 import com.book.library.booklibrary.home.exception.NoSuchResourceException;
 import com.book.library.booklibrary.library.model.entity.Book;
 import com.book.library.booklibrary.library.service.book.BookServiceInterface;
@@ -48,7 +49,7 @@ public class OrderService implements OrderServiceInterface {
         Optional<Book> bookOptional = this.bookService.getBookById(bookId);
 
         if (!bookOptional.isPresent()) {
-            throw new NoSuchResourceException("No such book!");
+            throw new NoSuchBookException("No such book!");
         }
 
         AddOrder bookOrder = new AddOrder();
@@ -65,7 +66,7 @@ public class OrderService implements OrderServiceInterface {
         Order finalOrder;
         Optional<Book> bookOptional = this.bookService.getBookById(orderDetails.getBookId());
         if (!bookOptional.isPresent()) {
-            throw new NoSuchResourceException("invalid book");
+            throw new NoSuchBookException("invalid book");
         }
         Optional<User> userOptional = this.userService.getUserByUsername(principal.getName());
 
@@ -82,10 +83,12 @@ public class OrderService implements OrderServiceInterface {
 
         if (finalOrder.getOrderType().equals(OrderType.BUY)) {
             notificationType = NotificationType.BUY_BOOK;
-            this.notificationService.asyncAddCurrentUserNotification(order, notificationType, this.notificationDate(),new Date(),  principal);
+            this.notificationService.asyncAddCurrentUserNotification(order, notificationType, this.notificationDate(), new Date(), principal);
         } else {
             notificationType = NotificationType.RENT_BOOK;
-            this.notificationService.asyncAddCurrentUserNotification(order, notificationType, this.notificationDate(),new Date(), principal);
+            this.notificationService.asyncAddCurrentUserNotification(order, notificationType, this.notificationDate(), new Date(), principal);
+            notificationType = NotificationType.RETURN_BOOK;
+            this.notificationService.asyncAddCurrentUserNotification(order, notificationType, this.notificationDate(), this.passRentNotificationDays(order.getRentTime()), principal);
         }
 
         return order.getId();
@@ -95,5 +98,13 @@ public class OrderService implements OrderServiceInterface {
         Calendar c = Calendar.getInstance();
         c.add(Calendar.DATE, NotificationService.NOTIFICATION_DEFAULT_PERIOD);
         return c.getTime();
+    }
+
+    private Date passRentNotificationDays(Integer rentTime) {
+
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, rentTime / 2);
+        return c.getTime();
+
     }
 }
