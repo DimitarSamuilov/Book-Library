@@ -32,8 +32,8 @@ public class NotificationController {
         return this.notificationServiceInterface.getLatestNotifications(principal);
     }
 
-    @RequestMapping(method = RequestMethod.PATCH, path = "/markViewed/{id}")
-    public String markViewedNotification(@PathVariable(name = "id") String id) {
+    @PostMapping("/markViewed")
+    public String markViewedNotification(@RequestParam(name = "id") String id) {
         Long notificationId;
         try {
             notificationId = Long.valueOf(id);

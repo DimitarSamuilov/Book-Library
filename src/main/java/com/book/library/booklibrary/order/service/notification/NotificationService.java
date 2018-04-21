@@ -69,7 +69,7 @@ public class NotificationService implements NotificationServiceInterface {
         }
 
         List<Notification> latestNotifications = this.notificationRepository
-                .findFirst5ByRelatedOrder_CustomerUsername(principal.getName());
+                .findFirst5ByViewedAndDateAfterAndRelatedOrder_CustomerUsername(false, new Date(), principal.getName());
         return
                 latestNotifications.stream()
                         .map(notification -> this.modelMapper.map(notification, BasicNotification.class))
@@ -101,7 +101,7 @@ public class NotificationService implements NotificationServiceInterface {
             Notification notification = notificationOptional.get();
             notification.setViewed(true);
             this.notificationRepository.save(notification);
-        }else {
+        } else {
             throw new NoSuchResourceException("invalid notification Id");
         }
     }

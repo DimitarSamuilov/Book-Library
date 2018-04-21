@@ -23,8 +23,9 @@ public class NotificationScheduler {
         this.bookService = bookService;
         this.orderServiceInterface = orderServiceInterface;
     }
-//
-//    @Scheduled(fixedDelay = 30000)
+
+//    @Scheduled(cron = "0 1 * * *")
+//    @Scheduled(fixedDelay = 5000)
 //    public void deleteOldNotifications() {
 //        this.notificationService.getOldNotifications().forEach(notification -> this.notificationService.deleteNotification(notification.getId()));
 //    }
