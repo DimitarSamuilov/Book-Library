@@ -1,17 +1,24 @@
 package com.book.library.booklibrary.order.service.order;
 
+import com.book.library.booklibrary.home.exception.InsufficientAccessException;
 import com.book.library.booklibrary.home.exception.NoSuchBookException;
+import com.book.library.booklibrary.home.exception.NoSuchLibraryException;
 import com.book.library.booklibrary.home.exception.NoSuchResourceException;
 import com.book.library.booklibrary.library.model.entity.Book;
 import com.book.library.booklibrary.library.service.book.BookServiceInterface;
 import com.book.library.booklibrary.order.enums.*;
 import com.book.library.booklibrary.order.model.DTO.AddOrder;
+import com.book.library.booklibrary.order.model.DTO.OrderListView;
 import com.book.library.booklibrary.order.model.entity.Order;
 import com.book.library.booklibrary.order.repository.OrderRepository;
 import com.book.library.booklibrary.order.service.notification.*;
+import com.book.library.booklibrary.order.config.BookToBookNameConverter;
+import com.book.library.booklibrary.order.config.UserToUsernameConverter;
 import com.book.library.booklibrary.user.model.entity.User;
 import com.book.library.booklibrary.user.service.UserServiceInterface;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -41,6 +48,43 @@ public class OrderService implements OrderServiceInterface {
         this.bookService = bookService;
         this.userService = userService;
         this.modelMapper = modelMapper;
+    }
+
+    @Override
+    public Slice<OrderListView> getNotConfirmedOrders(Pageable pageable, Principal principal) {
+        this.modelMapper.addConverter(new BookToBookNameConverter());
+        this.modelMapper.addConverter(new UserToUsernameConverter());
+        return this.orderRepository.findAllByOrderConfirmedFalseAndOrderBook_Library_User_Username(principal.getName(), pageable).map(order -> this.modelMapper.map(order, OrderListView.class));
+    }
+
+    @Override
+    public void confirmOrder(Long id, Principal principal) {
+        Optional<User> userOptional = this.userService.getUserByUsername(principal.getName());
+        if (!userOptional.isPresent()) {
+            throw new NoSuchLibraryException("No such library");
+        }
+
+        User user = userOptional.get();
+        if (user.getLibrary() == null) {
+            throw new NoSuchLibraryException("No such library");
+        }
+
+        if (user.getRoles().stream().noneMatch(role -> role.getName().equalsIgnoreCase("LIBRARY"))) {
+            throw new NoSuchLibraryException("No such library");
+        }
+
+        Optional<Order> orderOptional = this.orderRepository.findById(id);
+        if(!orderOptional.isPresent()){
+            throw  new NoSuchBookException("No such book");
+        }
+
+        if(!orderOptional.get().getOrderBook().getLibrary().getId().equals(user.getLibrary().getId())){
+            throw new InsufficientAccessException();
+        }
+
+        orderOptional.get().setOrderConfirmed(true);
+        this.orderRepository.save(orderOptional.get());
+
     }
 
     @Override

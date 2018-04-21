@@ -2,7 +2,11 @@ package com.book.library.booklibrary.order.controller;
 
 import com.book.library.booklibrary.library.service.book.BookService;
 import com.book.library.booklibrary.order.model.DTO.AddOrder;
+import com.book.library.booklibrary.order.model.DTO.OrderListView;
 import com.book.library.booklibrary.order.service.order.OrderServiceInterface;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,5 +53,24 @@ public class OrderController {
         Long orderId = this.orderService.makeOrder(order, principal);
 
         return "redirect:/";
+    }
+
+    @PreAuthorize("hasRole('ROLE_LIBRARY')")
+    @GetMapping("/notConfirmedList")
+    public String notConfirmed(@PageableDefault(size = 2) Pageable pageable, Principal principal, Model model) {
+
+        Slice<OrderListView> notConfirmedOrders = this.orderService.getNotConfirmedOrders(pageable, principal);
+        model.addAttribute("orders", notConfirmedOrders);
+        model.addAttribute("pageable", pageable);
+
+        return "order/list";
+    }
+
+    @PreAuthorize("hasRole('ROLE_LIBRARY')")
+    @GetMapping("/confirmOrder/{id}")
+    public String confirmOrder(@PathVariable(name = "id") Long id, Principal principal) {
+
+        this.orderService.confirmOrder(id, principal);
+        return "redirect:/orders/notConfirmedList";
     }
 }

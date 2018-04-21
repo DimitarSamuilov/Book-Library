@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+<head>
+    <th:block th:replace="~{layout/head}">
+
+    </th:block>
+    <title>Orders for lib</title>
+</head>
+<body>
+
+<div th:replace="~{layout/navigation}"></div>
+<div class="container contaner-body">
+    <div class="bs-docs-section">
+        <div class="row">
+            <div class="col-sm-9">
+
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col">book Title</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Contact number</th>
+                        <th scope="col" th:if="${#authorization.expression('hasAnyRole(''ROLE_LIBRARY'')')}">cONFIRM
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="order:${orders}" th:object="${order}">
+                    <tr class="table-active">
+                        <th scope="row" th:text="*{getId()}"></th>
+                        <td th:text="*{getCustomerName()}"></td>
+                        <td th:text="*{getBookName()}"></td>
+                        <td th:text="*{getOrderAddress()}"></td>
+                        <td th:text="*{getContactNumber()}"></td>
+                        <td><a class="btn btn-success" th:href="@{/orders/confirmOrder/{id}(id=*{getId()})}"
+                               th:text="see"></a></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div>
+                    <ul class="pagination">
+                        <th:block th:if="${orders.hasPrevious()}">
+                            <li class="page-item">
+                                <a class="page-link"
+                                   th:href="@{/libraries/all(page=${pageable.getPageNumber()-1})}">&laquo;</a>
+                            </li>
+                        </th:block>
+                        <th:block th:if="${orders.hasNext()}">
+                            <li class="page-item">
+                                <a class="page-link" th:href="@{/libraries/all(page=${pageable.getPageNumber()+1})}">&raquo;</a>
+                            </li>
+                        </th:block>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
