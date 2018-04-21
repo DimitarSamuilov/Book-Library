@@ -18,6 +18,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.*;
 import java.security.Principal;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -44,7 +45,7 @@ public class LibraryService implements LibraryServiceInterface {
             if (libUser.get().getLibrary() != null) {
                 return libUser.get().getLibrary();
             }
-        }else {
+        } else {
             throw new NoSuchResourceException("No such library ");
         }
         return null;
@@ -100,16 +101,20 @@ public class LibraryService implements LibraryServiceInterface {
     }
 
     @Override
-    public LibraryDetailsViewModel getLibraryDetails(Long id) throws Exception {
+    public LibraryDetailsViewModel getLibraryDetails(Long id) throws NoSuchResourceException {
 
         Optional<User> userOptional = this.userRepository.findById(id);
 
         if (!userOptional.isPresent()) {
-            throw new Exception("No such Library");
+            throw new NoSuchResourceException("No such Library");
         }
 
         if (userOptional.get().getRoles().stream().noneMatch(role -> role.getName().equalsIgnoreCase(UserType.LIBRARY.toString()))) {
-            throw new Exception("this is not a library");
+            throw new NoSuchResourceException("this is not a library");
+        }
+
+        if (userOptional.get().getLibrary() == null) {
+            throw new NoSuchResourceException("Library profile is not ready for users");
         }
 
         LibraryDetailsViewModel libraryDetailsViewModel = this.modelMapper.map(userOptional.get().getLibrary(), LibraryDetailsViewModel.class);

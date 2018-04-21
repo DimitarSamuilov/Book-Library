@@ -9,11 +9,11 @@
 
         <div class="navbar-collapse collapse" id="navbarResponsive">
             <ul class="navbar-nav mr-auto">
-                <li th:if="${#authorization.expression('isAuthenticated()')}" class="nav-item dropdown">
+                <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="library">Libraries<span
                             class="caret"></span></a>
                     <div class="dropdown-menu" aria-labelledby="library">
-                        <a th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMIN'',''ROLE_LIBRARY'')')}"
+                        <a th:if="${#authorization.expression('hasAnyRole(''ROLE_LIBRARY'')')}"
                            class="dropdown-item"
                            th:href="@{/libraries/editDetails/{libraryName}(libraryName=${#authentication.name})}">Edit
                             Library Details</a>

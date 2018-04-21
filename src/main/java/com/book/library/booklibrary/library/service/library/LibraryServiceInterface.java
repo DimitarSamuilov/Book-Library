@@ -18,7 +18,7 @@ public interface LibraryServiceInterface {
 
     Library getLibraryByUsername(String username) throws NoSuchResourceException;
 
-    LibraryDetailsViewModel getLibraryDetails(Long id) throws Exception;
+    LibraryDetailsViewModel getLibraryDetails(Long id) throws NoSuchResourceException;
 
     CompletableFuture<Void> deleteLibraryByName(String libraryName);
 }
