@@ -29,11 +29,11 @@ public class CategoryService implements CategoryServiceInterface {
     }
 
     @Override
-    public Long addCategory(CategoryDTO categoryDTO) throws ConstraintViolationException {
+    public Category addCategory(CategoryDTO categoryDTO) throws ConstraintViolationException {
         Optional<Category> categoryOptional = this.categoryRepository.findByName(categoryDTO.getName());
         if (categoryOptional.isPresent()) {
             throw new ConstraintViolationException("Category already exists");
         }
-        return this.categoryRepository.save(this.modelMapper.map(categoryDTO, Category.class)).getId();
+        return this.categoryRepository.save(this.modelMapper.map(categoryDTO, Category.class));
     }
 }

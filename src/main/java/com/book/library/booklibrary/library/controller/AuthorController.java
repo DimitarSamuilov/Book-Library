@@ -3,6 +3,7 @@ package com.book.library.booklibrary.library.controller;
 import com.book.library.booklibrary.home.exception.NoSuchResourceException;
 import com.book.library.booklibrary.library.model.DTO.AuthorDTO;
 import com.book.library.booklibrary.library.model.entity.Author;
+import com.book.library.booklibrary.library.service.author.AuthorService;
 import com.book.library.booklibrary.library.service.author.AuthorServiceInterface;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;

@@ -16,5 +16,5 @@ public interface AuthorServiceInterface {
 
     Slice<AuthorDTO> getAuthorsPageable(Pageable page);
     AuthorDTO getAuthorById(Long id) throws NoSuchResourceException;
-    Long addAuthor(AuthorDTO author);
+    Author addAuthor(AuthorDTO author);
 }

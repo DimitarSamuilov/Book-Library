@@ -9,5 +9,5 @@ public interface CategoryServiceInterface {
 
     List<Category> getAllCategories();
 
-    Long addCategory(CategoryDTO categoryDTO);
+    Category addCategory(CategoryDTO categoryDTO);
 }

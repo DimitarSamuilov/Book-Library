@@ -48,7 +48,7 @@ public class AuthorService implements AuthorServiceInterface {
     }
 
     @Override
-    public Long addAuthor(AuthorDTO author) {
-        return this.authorRepository.save(this.modelMapper.map(author, Author.class)).getId();
+    public Author addAuthor(AuthorDTO author) {
+        return this.authorRepository.save(this.modelMapper.map(author, Author.class));
     }
 }
