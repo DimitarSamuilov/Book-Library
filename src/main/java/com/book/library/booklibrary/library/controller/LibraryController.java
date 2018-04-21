@@ -32,7 +32,6 @@ public class LibraryController {
         this.libraryService = libraryService;
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/all")
     public String allLibraries(@PageableDefault(size = 2) Pageable pageable, Model model) {
         model.addAttribute("libraries", this.userService.getUsersByRole("library", pageable));
@@ -40,8 +39,14 @@ public class LibraryController {
         return "library/list";
     }
 
-    // TODO: 16.4.2018 г. maybe delete library by admin
-    
+
+    @GetMapping("/delete/{libraryName}")
+    public String deleteLibrary(@PathVariable(name = "libraryName") String libraryName) {
+
+        this.libraryService.deleteLibraryByName(libraryName);
+        return "redirect:/libraries/all";
+    }
+
     @PreAuthorize("hasAnyRole('ROLE_LIBRARY')")
     @GetMapping("/editDetails/{libraryName}")
     public String editLibraryDetails(Model model, @PathVariable(name = "libraryName") String libraryName, Principal principal) throws Exception {
@@ -59,29 +64,25 @@ public class LibraryController {
             return "library/edit_details";
         }
         Long libraryDetails = this.libraryService.editLibraryDetails(libraryId, library, principal);
-        return "redirect:/libraries/profileDetails/"+libraryDetails;
+        return "redirect:/libraries/profileDetails/" + libraryDetails;
     }
 
     @GetMapping("/profileDetails/{libraryId}")
     public String libraryDetails(@PathVariable(name = "libraryId") Long libraryId, Model model) throws Exception {
-        JSONObject googleMapJsonObject = null;
         LibraryDetailsViewModel libraryDetails = this.libraryService.getLibraryDetails(libraryId);
 
-        googleMapJsonObject = new JSONObject();
+        JSONObject googleMapJsonObject = new JSONObject();
 
-        JSONObject libraryMapInfo=  new JSONObject()
-                        .put("title", libraryDetails.getUsername())
-                        .put("description", libraryDetails.getLibraryDescription())
-                        .put("email", libraryDetails.getEmail())
-                        .put("coordinates", new JSONObject()
-//                                .put("lat",libraryDetails.getLatitude())
-//                                .put("lng",libraryDetails.getLongitude()));
-                                .put("lat",libraryDetails.getLatitude())
-                                .put("lng",libraryDetails.getLongitude()));
-        googleMapJsonObject.put("library",libraryMapInfo);
+        JSONObject libraryMapInfo = new JSONObject()
+                .put("title", libraryDetails.getUsername())
+                .put("description", libraryDetails.getLibraryDescription())
+                .put("email", libraryDetails.getEmail())
+                .put("coordinates", new JSONObject()
+                        .put("lat", libraryDetails.getLatitude())
+                        .put("lng", libraryDetails.getLongitude()));
+        googleMapJsonObject.put("library", libraryMapInfo);
         model.addAttribute("library", libraryDetails);
         model.addAttribute("geoJson", googleMapJsonObject.toString());
-        String de = "das";
         return "library/map";
     }
 

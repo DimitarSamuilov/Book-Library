@@ -1,52 +1,70 @@
+<div class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
+    <div class="container">
+        <a th:href="@{/}" class="navbar-brand">Book library </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarResponsive" aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
-        <div class="container">
-            <a th:href="@{/}" class="navbar-brand">Book library </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarResponsive" aria-controls="navbarResponsive"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="navbar-collapse collapse" id="navbarResponsive">
-                <ul  class="navbar-nav" >
-                    <li th:if="${#authorization.expression('isAuthenticated()')}" class="nav-item dropdown" >
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="profile">Edit Profile<span
-                                class="caret"></span></a>
-                        <div class="dropdown-menu" aria-labelledby="profile">
-                            <a th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMIN'',''ROLE_LIBRARY'')')}"
-                               class="dropdown-item" th:href="@{/libraries/editDetails/{libraryName}(libraryName=${#authentication.name})}">Edit Library Details</a>
-                            <a th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMIN'',''ROLE_USER'')')}"
-                               class="dropdown-item" th:href="@{/viruses/add}">Edit User Details</a>
-                        </div>
-                    </li>
+        <div class="navbar-collapse collapse" id="navbarResponsive">
+            <ul class="navbar-nav">
+                <li th:if="${#authorization.expression('isAuthenticated()')}" class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="library">Libraries<span
+                            class="caret"></span></a>
+                    <div class="dropdown-menu" aria-labelledby="library">
+                        <a th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMIN'',''ROLE_LIBRARY'')')}"
+                           class="dropdown-item"
+                           th:href="@{/libraries/editDetails/{libraryName}(libraryName=${#authentication.name})}">Edit
+                            Library Details</a>
+                        <a class="dropdown-item" th:href="@{/libraries/all}">Libraries List</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown"
+                    th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMIN'',''ROLE_LIBRARY'')')}">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="authors">Authors</a>
+                    <div class="dropdown-menu" aria-labelledby="libraries">
+                        <a th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMIN'',''ROLE_LIBRARY'')')}"
+                           class="dropdown-item" href="@{/authors/add}">Add author</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="books">Books</a>
+                    <div class="dropdown-menu" aria-labelledby="books">
+                        <a th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMIN'',''ROLE_LIBRARY'')')}"
+                           class="dropdown-item" href="@{/books/add}">Add book</a>
+                        <a th:href="@{/books/all}" class="dropdown-item">All books</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown" th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMIN'')')}">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="categories">Categories</a>
+                    <div class="dropdown-menu" aria-labelledby="books">
+                        <a th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMIN'')')}" class="dropdown-item"
+                           href="@{/categories/add}">Add Category</a>
+                    </div>
+                </li>
+            </ul>
+            <th:block th:if="${#authorization.expression('isAuthenticated()')}">
+                <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/books/all}">Books list</a>
+                        <a class="nav-link" th:href="@{/users/logout}">logout</a>
                     </li>
                 </ul>
-                <th:block th:if="${#authorization.expression('isAuthenticated()')}">
-                    <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/users/logout}">logout</a>
-                        </li>
-                    </ul>
-                </th:block>
-                <th:block th:unless="${#authorization.expression('isAuthenticated()')} ">
-                    <ul class="nav navbar-nav ml-auto">
+            </th:block>
+            <th:block th:unless="${#authorization.expression('isAuthenticated()')} ">
+                <ul class="nav navbar-nav ml-auto">
 
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/users/login}">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/users/register}">Register</a>
-                        </li>
-                    </ul>
-                </th:block>
-            </div>
-
-
-
-
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/users/login}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/users/register}">Register</a>
+                    </li>
+                </ul>
+            </th:block>
         </div>
+
+
     </div>
+</div>
 

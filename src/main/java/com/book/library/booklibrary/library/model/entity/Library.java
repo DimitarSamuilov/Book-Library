@@ -27,8 +27,8 @@ public class Library {
     @OneToMany(mappedBy = "library", targetEntity = Book.class,cascade = CascadeType.ALL)
     private Set<Book> books;
 
-    @OneToOne(targetEntity = User.class)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @OneToOne(targetEntity = User.class,cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id" )
     private User user;
 
     public Library() {
@@ -89,5 +89,17 @@ public class Library {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Library{" +
+                "id=" + id +
+                ", libraryDescription='" + libraryDescription + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", address='" + address + '\'' +
+                ", user=" + user +
+                '}';
     }
 }

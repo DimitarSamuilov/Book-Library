@@ -19,7 +19,7 @@ import java.util.Optional;
 @Component
 public class LibraryDetailInterceptor extends HandlerInterceptorAdapter {
 
-    public static final String NULL_LIBRARY_DETAILS = "You must fill details before you can adda a book";
+    private static final String NULL_LIBRARY_DETAILS = "You must fill details before you can adda a book";
 
     private UserServiceInterface userService;
 
@@ -36,7 +36,7 @@ public class LibraryDetailInterceptor extends HandlerInterceptorAdapter {
             Optional<User> userOptional = this.userService.getUserByUsername(username);
             if (userOptional.isPresent()) {
                 if (userOptional.get().getLibrary() == null) {
-                    System.out.println(userOptional.get());
+//                    System.out.println(userOptional.get());
                     response.sendRedirect(
                                     "/libraries/editDetails/" +
                                             userOptional.get().getUsername() +

@@ -39,6 +39,7 @@ public class BookController {
         return "book/add";
     }
 
+    @PreAuthorize("hasRole('ROLE_LIBRARY')")
     @PostMapping("/add")
     public String processNewBook(@Valid @ModelAttribute("book") AddBook book, BindingResult bindingResult, Model model, Principal principal) throws Exception {
         if (bindingResult.hasErrors()) {
@@ -53,10 +54,10 @@ public class BookController {
 
 
     @GetMapping("/all")
-    public String bookList(@RequestParam(name = "category",required = false,defaultValue = "") String category,@PageableDefault(size = 2) Pageable pageable, Model model) {
-        model.addAttribute("categories",this.categoryService.getAllCategories());
+    public String bookList(@RequestParam(name = "category", required = false, defaultValue = "") String category, @PageableDefault(size = 2) Pageable pageable, Model model) {
+        model.addAttribute("categories", this.categoryService.getAllCategories());
         model.addAttribute("pageable", pageable);
-        model.addAttribute("books", this.bookService.getAllBookPages(pageable,category));
+        model.addAttribute("books", this.bookService.getAllBookPages(pageable, category));
         return "book/list";
     }
 }

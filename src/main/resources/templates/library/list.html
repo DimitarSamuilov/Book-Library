@@ -36,7 +36,7 @@
                                th:text="see"></a></td>
 
                         <td th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMIN'')')}"
-                        ><a class="btn btn-danger" th:href="@{/libraries/delete/{id}(id=*{getId()})}"
+                        ><a class="btn btn-danger" th:href="@{/libraries/delete/{id}(id=*{getUsername()})}"
                                th:text="delete"></a></td>
 
                     </tr>

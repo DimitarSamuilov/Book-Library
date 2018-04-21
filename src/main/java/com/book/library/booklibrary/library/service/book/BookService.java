@@ -1,5 +1,6 @@
 package com.book.library.booklibrary.library.service.book;
 
+import com.book.library.booklibrary.home.exception.NoSuchResourceException;
 import com.book.library.booklibrary.library.model.DTO.AddBook;
 import com.book.library.booklibrary.library.model.entity.Author;
 import com.book.library.booklibrary.library.model.entity.Book;
@@ -35,7 +36,7 @@ public class BookService implements BookServiceInterface {
     }
 
     @Override
-    public Long addNewBook(AddBook bookDTO, Principal principal) throws Exception {
+    public Long addNewBook(AddBook bookDTO, Principal principal) throws NoSuchResourceException {
 
         Book insertBook = this.modelMapper.map(bookDTO, Book.class);
         Library ownerLibrary = this.libraryService.getLibraryByUsername(principal.getName());

@@ -1,5 +1,6 @@
 package com.book.library.booklibrary.library.service.library;
 
+import com.book.library.booklibrary.home.exception.NoSuchResourceException;
 import com.book.library.booklibrary.library.model.DTO.EditLibraryDetails;
 import com.book.library.booklibrary.library.model.entity.Library;
 import com.book.library.booklibrary.library.model.viewmodel.LibraryDetailsViewModel;
@@ -13,11 +14,13 @@ import org.modelmapper.AbstractProvider;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.modelmapper.spi.Mapping;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @Transactional
@@ -34,13 +37,15 @@ public class LibraryService implements LibraryServiceInterface {
     }
 
 
-    public Library getLibraryByUsername(String username) throws Exception {
+    public Library getLibraryByUsername(String username) throws NoSuchResourceException {
         Optional<User> libUser = this.userRepository.findByUsername(username);
         if (libUser.isPresent()) {
             String deb = "das";
             if (libUser.get().getLibrary() != null) {
                 return libUser.get().getLibrary();
             }
+        }else {
+            throw new NoSuchResourceException("No such library ");
         }
         return null;
     }
@@ -111,5 +116,20 @@ public class LibraryService implements LibraryServiceInterface {
         this.modelMapper.map(userOptional.get(), libraryDetailsViewModel);
 
         return libraryDetailsViewModel;
+    }
+
+    @Async
+    @Override
+    public CompletableFuture<Void> deleteLibraryByName(String libraryName) {
+        try {
+            Optional<Library> libraryOptional = this.libraryRepository.findFirstByUserUsername(libraryName);
+
+            if (libraryOptional.isPresent()) {
+                this.userRepository.deleteById(libraryOptional.get().getUser().getId());
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return CompletableFuture.completedFuture(null);
     }
 }
