@@ -1,5 +1,6 @@
 package com.book.library.booklibrary.order.service.notification;
 
+import com.book.library.booklibrary.home.exception.NoSuchResourceException;
 import com.book.library.booklibrary.order.enums.NotificationType;
 import com.book.library.booklibrary.order.model.DTO.BasicNotification;
 import com.book.library.booklibrary.order.model.entity.Notification;
@@ -66,9 +67,11 @@ public class NotificationService implements NotificationServiceInterface {
         if (principal == null) {
             return new ArrayList<>();
         }
+
+        List<Notification> latestNotifications = this.notificationRepository
+                .findFirst5ByRelatedOrder_CustomerUsername(principal.getName());
         return
-                this.notificationRepository
-                        .findFirst5ByRelatedOrder_CustomerUsername(principal.getName()).stream()
+                latestNotifications.stream()
                         .map(notification -> this.modelMapper.map(notification, BasicNotification.class))
                         .map(basicNotification ->
                                 basicNotification.setFormattedMessage
@@ -98,6 +101,8 @@ public class NotificationService implements NotificationServiceInterface {
             Notification notification = notificationOptional.get();
             notification.setViewed(true);
             this.notificationRepository.save(notification);
+        }else {
+            throw new NoSuchResourceException("invalid notification Id");
         }
     }
 

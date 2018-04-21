@@ -1,5 +1,6 @@
 package com.book.library.booklibrary.order.controller;
 
+import com.book.library.booklibrary.home.exception.NoSuchResourceException;
 import com.book.library.booklibrary.order.model.DTO.BasicNotification;
 import com.book.library.booklibrary.order.service.notification.NotificationService;
 import com.book.library.booklibrary.order.service.notification.NotificationServiceInterface;
@@ -28,19 +29,22 @@ public class NotificationController {
 
     @GetMapping("/latestNotifications")
     public List<BasicNotification> latestNotifications(Principal principal) {
-           return this.notificationServiceInterface.getLatestNotifications(principal);
+        return this.notificationServiceInterface.getLatestNotifications(principal);
     }
 
-    @PostMapping("/markViewed/{id}")
-    public String markViewedNotification(@PathVariable(name = "id") String id){
-        try{
-            Long notificationId= Long.valueOf(id);
+    @RequestMapping(method = RequestMethod.PATCH, path = "/markViewed/{id}")
+    public String markViewedNotification(@PathVariable(name = "id") String id) {
+        Long notificationId;
+        try {
+            notificationId = Long.valueOf(id);
 
-        }catch (NumberFormatException nfe){
-            System.out.println("invalid convert");
+        } catch (NumberFormatException nfe) {
+            throw new NoSuchResourceException("invalid notification id");
         }
-        return "{success:1}";
+        this.notificationServiceInterface.markNotificationViewed(notificationId);
+        return "{id:" + notificationId + "}";
     }
 
+    // TODO: 21.4.2018 г. json exception handling
 
 }

@@ -23,7 +23,7 @@ public class GlobalExceptionHandlerController {
             ResponseStatus annotation = aClass.getAnnotation(ResponseStatus.class);
             status= annotation.value();
         }
-        System.out.println(ex.getMessage());
+//        System.out.println(ex.getMessage());
         model.addAttribute("status",status);
         model.addAttribute("errorMessage", ex.getMessage());
         return "error/custom";

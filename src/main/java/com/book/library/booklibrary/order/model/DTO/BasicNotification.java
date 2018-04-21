@@ -4,6 +4,8 @@ import com.book.library.booklibrary.order.enums.NotificationType;
 import com.book.library.booklibrary.order.model.entity.Order;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.util.Date;
 
 public class BasicNotification {
@@ -12,6 +14,10 @@ public class BasicNotification {
 
     @JsonIgnore
     private NotificationType notificationType;
+
+    private Date startDate;
+
+    private boolean viewed;
 
     private String message;
 
@@ -39,10 +45,27 @@ public class BasicNotification {
         this.message = message;
     }
 
-    public BasicNotification setFormattedMessage(String message){
+    public BasicNotification setFormattedMessage(String message) {
         this.setMessage(message);
-        return  this;
+        return this;
     }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public boolean isViewed() {
+        return viewed;
+    }
+
+    public void setViewed(boolean viewed) {
+        this.viewed = viewed;
+    }
+
     public Order getRelatedOrder() {
         return relatedOrder;
     }
@@ -65,5 +88,17 @@ public class BasicNotification {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "BasicNotification{" +
+                "id=" + id +
+                ", notificationType=" + notificationType +
+                ", startDate=" + startDate +
+                ", is_viewed=" + viewed +
+                ", message='" + message + '\'' +
+                ", date=" + date +
+                '}';
     }
 }

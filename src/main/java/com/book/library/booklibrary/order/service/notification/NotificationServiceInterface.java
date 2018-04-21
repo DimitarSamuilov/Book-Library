@@ -1,5 +1,6 @@
 package com.book.library.booklibrary.order.service.notification;
 
+import com.book.library.booklibrary.home.exception.NoSuchResourceException;
 import com.book.library.booklibrary.order.enums.NotificationType;
 import com.book.library.booklibrary.order.model.DTO.BasicNotification;
 import com.book.library.booklibrary.order.model.entity.Notification;
@@ -20,7 +21,7 @@ public interface NotificationServiceInterface {
                                                             Date startDate,
                                                             Principal principal);
 
-    void markNotificationViewed(Long notificationId);
+    void markNotificationViewed(Long notificationId) throws NoSuchResourceException;
 
     void deleteNotification(Long notificationId);
 
