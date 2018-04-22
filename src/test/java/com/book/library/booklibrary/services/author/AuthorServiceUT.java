@@ -4,12 +4,14 @@ import com.book.library.booklibrary.library.model.DTO.AuthorDTO;
 import com.book.library.booklibrary.library.model.entity.Author;
 import com.book.library.booklibrary.library.repository.AuthorRepository;
 import com.book.library.booklibrary.library.service.author.AuthorService;
+import com.book.library.booklibrary.library.service.author.AuthorServiceInterface;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -26,16 +28,15 @@ public class AuthorServiceUT {
     @Mock
     private AuthorRepository authorRepository;
 
-
-    @InjectMocks
-    private ModelMapper modelMapper;
-
     private AuthorDTO authorDTO;
 
+    private ModelMapper modelMapper=new ModelMapper();
+
     @InjectMocks
-    private AuthorService authorService;
+    private AuthorService authorService = new AuthorService(this.modelMapper,this.authorRepository);
     @Before
     public void setUp(){
+        this.authorDTO=new AuthorDTO();
         this.authorDTO.setDescription("description");
         this.authorDTO.setName("AuthorName");
 

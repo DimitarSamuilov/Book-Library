@@ -29,7 +29,7 @@ public class Book {
     @Column(name = "rent_price")
     private Double rentPrice;
 
-    @Column(name = "book_description")
+    @Column(name = "book_description", columnDefinition="TEXT")
     private String bookDescription;
 
     @ManyToOne(targetEntity = Author.class)

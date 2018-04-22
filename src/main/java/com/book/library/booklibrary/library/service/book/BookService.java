@@ -40,7 +40,7 @@ public class BookService implements BookServiceInterface {
 
         Book insertBook = this.modelMapper.map(bookDTO, Book.class);
         Library ownerLibrary = this.libraryService.getLibraryByUsername(principal.getName());
-
+        insertBook.setCategories(bookDTO.getCategory());
         insertBook.setLibrary(ownerLibrary);
         return this.bookRepository.save(insertBook).getId();
     }

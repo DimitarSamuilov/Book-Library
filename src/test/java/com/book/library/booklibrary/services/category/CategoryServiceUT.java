@@ -32,7 +32,7 @@ public class CategoryServiceUT {
     private CategoryDTO categoryDTO;
 
     @InjectMocks
-    private CategoryService categoryService;
+    private CategoryService categoryService= new CategoryService(this.modelMapper,this.categoryRepository);
 
     @Before
     public void setUp(){
@@ -45,11 +45,9 @@ public class CategoryServiceUT {
 
     @Test
     public void createCategory_ValidFields(){
-        System.out.println(this.categoryService);
-//        Category createdCategory = this.categoryService.addCategory(this.categoryDTO);
-//        Assert.assertNotEquals("Categories save error",this.categoryDTO,createdCategory);
-//        Category category = this.categoryService.addCategory(this.categoryDTO);
-//        Assert.assertEquals("cats did not save",null,category);
+
+        Category category = this.categoryService.addCategory(this.categoryDTO);
+        Assert.assertNotEquals("cats did not save",null,category);
     }
 
 }
