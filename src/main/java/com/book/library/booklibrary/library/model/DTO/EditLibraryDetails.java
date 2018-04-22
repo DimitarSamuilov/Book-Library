@@ -26,7 +26,7 @@ public class EditLibraryDetails {
     private String libraryDescription;
 
 
-    @NotNull(message = "Email cannot be empty")
+    @NotNull(message = EMPTY_FIELD_ERROR )
     @Size(min = 4)
     private String email;
 

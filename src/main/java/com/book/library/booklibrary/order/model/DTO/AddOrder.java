@@ -16,8 +16,9 @@ import javax.validation.constraints.Size;
 )
 public class AddOrder {
 
-    private static final String NOT_EMPTY_FIELD="Field cannot be empty";
-
+    private static final String ADDRESS_SIZE = "Address must be between 10 and 255 strings";
+    private static final String NOT_EMPTY_FIELD = "Field cannot be empty";
+    private static final String INVALID_PHONE_NUMBER = "Invalid phone number";
     private Long bookId;
 
     private String bookName;
@@ -28,10 +29,10 @@ public class AddOrder {
     private String rentTime;
 
     @NotEmpty(message = NOT_EMPTY_FIELD)
-    @Size(min = 10, max = 255,message = "Address must be between 10 and 255 strings")
+    @Size(min = 10, max = 255, message = ADDRESS_SIZE)
     private String orderAddress;
 
-    @Pattern(message = "Invalid phone number",regexp = "^\\s*(?:\\+?(\\d{1,3}))?([-. (]*(\\d{3})[-. )]*)?((\\d{3})[-. ]*(\\d{2,4})(?:[-.x ]*(\\d+))?)\\s*$")
+    @Pattern(message = INVALID_PHONE_NUMBER, regexp = "^\\s*(?:\\+?(\\d{1,3}))?([-. (]*(\\d{3})[-. )]*)?((\\d{3})[-. ]*(\\d{2,4})(?:[-.x ]*(\\d+))?)\\s*$")
     @NotEmpty(message = NOT_EMPTY_FIELD)
     private String contactNumber;
 

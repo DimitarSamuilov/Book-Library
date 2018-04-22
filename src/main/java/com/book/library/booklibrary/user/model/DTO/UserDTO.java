@@ -9,19 +9,24 @@ import javax.validation.constraints.Size;
 
 public class UserDTO {
 
+    private static final String EMPTY_FIELD_EMAIL = "Email cannot be empty";
+    private static final String EMPTY_FIELD_PASSWORD = "Password cannot be empty";
+    private static final String EMPTY_FIELD_USERNAME = "Username cannot be empty";
+    private static final String EMPTY_PROFILE_TYPE = "Please select profile type";
+    private static final String PASSWORD_LENGTH="Password must be at least 3 characters";
     private Long id;
 
-    @NotEmpty(message = "Username cannot be empty")
+    @NotEmpty(message = EMPTY_FIELD_USERNAME)
     private String username;
 
-    @NotEmpty(message = "Password cannot be empty")
-    @Size(min = 3 , message = "Password must be at least 3 characters")
+    @NotEmpty(message = EMPTY_FIELD_PASSWORD)
+    @Size(min = 3, message = PASSWORD_LENGTH)
     private String password;
 
-    @NotEmpty(message = "Email cannot be empty")
+    @NotEmpty(message = EMPTY_FIELD_EMAIL)
     private String email;
 
-    @NotNull(message = "Please select profile type")
+    @NotNull(message = EMPTY_PROFILE_TYPE)
     private UserType userType;
 
     public UserDTO() {

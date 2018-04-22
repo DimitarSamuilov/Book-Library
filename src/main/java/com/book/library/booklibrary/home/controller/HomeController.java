@@ -20,15 +20,4 @@ public class HomeController {
     public String home() {
         return "home/index";
     }
-
-    @GetMapping("/errorTest/{error}")
-    public String error(@PathVariable(name = "error") String error) throws Exception {
-
-        if (error.equalsIgnoreCase("first")) {
-            throw new Exception("custom Error message");
-        }else if(error.equalsIgnoreCase("second")) {
-            throw new NoSuchLibraryException("No such resource");
-        }
-        return "home/index";
-    }
 }
