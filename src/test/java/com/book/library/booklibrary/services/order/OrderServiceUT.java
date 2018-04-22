@@ -25,6 +25,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles("test")
@@ -75,18 +78,17 @@ public class OrderServiceUT {
 
         this.addOrder = new AddOrder();
         addOrder.setBookName("firstBook");
-
-
         this.addOrder.setRentTime("4");
         this.addOrder.setOrderAddress("address");
-
         this.addOrder.setContactNumber("0895545963");
-
         this.addOrder.setOrderType(OrderType.RENT.toString());
-
         this.addOrder.setBuyPrice(10.0);
-
         this.addOrder.setRentPrice(5.0);
+
+        when(this.userRepository.save(any())).thenAnswer(e -> e.getArgument(0));
+        when(this.orderRepository.save(any())).thenAnswer(e -> e.getArgument(0));
+        when(this.notificationRepository.save(any())).thenAnswer(e -> e.getArgument(0));
+
     }
 
 }
