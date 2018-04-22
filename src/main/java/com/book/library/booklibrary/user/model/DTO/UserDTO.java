@@ -14,6 +14,7 @@ public class UserDTO {
     private static final String EMPTY_FIELD_USERNAME = "Username cannot be empty";
     private static final String EMPTY_PROFILE_TYPE = "Please select profile type";
     private static final String PASSWORD_LENGTH="Password must be at least 3 characters";
+
     private Long id;
 
     @NotEmpty(message = EMPTY_FIELD_USERNAME)
